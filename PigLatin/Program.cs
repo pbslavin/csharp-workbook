@@ -26,7 +26,13 @@ namespace PigLatin
             }
             string firstPart = word.Substring(0, vowelIndex);
             string secondPart = word.Substring(vowelIndex);
-            word = 
+            if (word.Length == secondPart.Length) 
+            {
+                word += "yay";
+            } else {
+                word = secondPart + firstPart + "ay";
+            }
+            Console.WriteLine(word);
 
             Console.ReadLine();
         }

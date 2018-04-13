@@ -16,11 +16,10 @@ namespace DataTypes
                 complete = Game();
                 if (complete) {
                     Console.WriteLine("You managed to escape the cavern alive! Would you like to play again? [y/n]: ");
-                    again = Console.ReadLine().ToLower();
                 } else {
                     Console.WriteLine("You have died! Would you like to play again? [y/n]: ");
-                    again = Console.ReadLine().ToLower();
                 }
+                again = Console.ReadLine().ToLower();
                 if (again == "y" || again == "yes") {
                     alive = true;
                 } else {
@@ -65,7 +64,7 @@ namespace DataTypes
                 stick = false;
             }
 
-            Console.WriteLine("As you proceed further into the cave, you see a small glowing object");
+            Console.WriteLine("As you proceed further into the cave, you see a small glowing object.");
             Console.WriteLine("Do you approach the object? [y/n]: ");
             string ch2 = Console.ReadLine().ToLower();
 

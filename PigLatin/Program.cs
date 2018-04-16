@@ -7,7 +7,7 @@ namespace PigLatin
         public static void Main()
         {   
             Console.WriteLine("Please enter an English word: ");
-            string word = Console.ReadLine();
+            string word = Console.ReadLine().ToLower();
             int vowelIndex = -1;
             if ((word.IndexOf('a') > -1 && word.IndexOf('a') < vowelIndex) || vowelIndex == -1) {
                 vowelIndex = word.IndexOf('a');

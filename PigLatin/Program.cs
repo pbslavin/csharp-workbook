@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PigLatin
 {
@@ -6,41 +9,56 @@ namespace PigLatin
     {
         public static void Main()
         {   
-            Console.WriteLine("Please enter an English word: ");
-            string word = Console.ReadLine().ToLower();
+            Console.WriteLine("Please enter an English sentence:");
+            string sentence = Console.ReadLine().ToLower();
+            string [] words = sentence.Split(' ');
+            List<string> translatedSentenceList = new List<string>();
+            foreach (string word in words)
+            {
+                translatedSentenceList.Add(TranslateWord(word));
+            }
+            string translatedSentence = String.Join(" ", translatedSentenceList.ToArray());
+            Console.WriteLine(translatedSentence);
+            Console.ReadLine();
+        }
+
+        public static string TranslateWord(string pword)
+        {   
+            Dictionary<int, string> punctDict = new Dictionary<int, string>();
+            string word = "";
+            for (int i = 0; i < pword.Length; i ++)
+            {
+                if (Char.IsPunctuation(pword[i]))
+                {
+                    punctDict.Add(i, pword[i].ToString());
+                } else {
+                    word += pword[i].ToString();
+                }
+            }
+            
+            char [] vowels = new char [] {'a', 'e', 'i', 'o', 'u'};
             int vowelIndex = -1;
-            if ((word.IndexOf('a') > -1 && word.IndexOf('a') < vowelIndex) || vowelIndex == -1) {
-                vowelIndex = word.IndexOf('a');
-            }
-            if ((word.IndexOf('e') > -1 && word.IndexOf('e') < vowelIndex) || vowelIndex == -1) {
-                vowelIndex = word.IndexOf('e');
-            }
-            if ((word.IndexOf('i') > -1 && word.IndexOf('i') < vowelIndex) || vowelIndex == -1) {
-                vowelIndex = word.IndexOf('i');
-            }
-            if ((word.IndexOf('o') > -1 && word.IndexOf('o') < vowelIndex) || vowelIndex == -1) {
-                vowelIndex = word.IndexOf('o');
-            }
-            if ((word.IndexOf('u') > -1 && word.IndexOf('u') < vowelIndex) || vowelIndex == -1) {
-                vowelIndex = word.IndexOf('u');
+            if ((word.IndexOfAny(vowels) > -1 && word.IndexOfAny(vowels) < vowelIndex) || vowelIndex == -1) {
+                vowelIndex = word.IndexOfAny(vowels);
             }
             string firstPart = word.Substring(0, vowelIndex);
             string secondPart = word.Substring(vowelIndex);
             if (word.Length == secondPart.Length) 
             {
-                word += "yay";
+                pword = word + "yay";
             } else {
-                word = secondPart + firstPart + "ay";
+                pword = secondPart + firstPart + "ay";
             }
-            Console.WriteLine(word);
-
-            Console.ReadLine();
-        }
-        
-        public static string TranslateWord(string word)
-        {
-            // your code goes here
-            return word;
+            foreach (var key in punctDict.Keys)
+            {
+                if (key < word.Length)
+                {
+                    pword = pword.Insert(key, punctDict[key]);
+                } else {
+                    pword = pword + punctDict[key];
+                }
+            }
+            return pword;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace PigLatin
         public static void Main()
         {   
             Console.WriteLine("Please enter an English sentence:");
-            string sentence = Console.ReadLine().ToLower();
+            string sentence = Console.ReadLine();
             string [] words = sentence.Split(' ');
             List<string> translatedSentenceList = new List<string>();
             foreach (string word in words)
@@ -24,22 +24,58 @@ namespace PigLatin
 
         public static string TranslateWord(string pword)
         {   
+            // create dictionary of all existing punctuation marks with their original indices as keys, and a copy of the word string with all punctuation removed
             Dictionary<int, string> punctDict = new Dictionary<int, string>();
+            bool capitalized = false;
             string word = "";
+            int lastLetterIndex = 0;
+            int firstLetterIndex = -1;
+            int firstVowelIndex = 0;
+            int upToLastLetter;
             for (int i = 0; i < pword.Length; i ++)
             {
                 if (Char.IsPunctuation(pword[i]))
                 {
+
                     punctDict.Add(i, pword[i].ToString());
-                } else {
+                } else {                    
+                    if (firstLetterIndex == -1) 
+                    {
+                        // set firstLetterIndex
+                        firstLetterIndex = i;
+                    }
                     word += pword[i].ToString();
+                    lastLetterIndex = i;
                 }
             }
-            
+            if (Char.IsUpper(pword, firstLetterIndex)) 
+            {
+                capitalized = true;
+            }
+            word = word.ToLower();
+            upToLastLetter = pword.Substring(0, lastLetterIndex).Length;
+            // translate the original word, minus any punctuation
             char [] vowels = new char [] {'a', 'e', 'i', 'o', 'u'};
             int vowelIndex = -1;
-            if ((word.IndexOfAny(vowels) > -1 && word.IndexOfAny(vowels) < vowelIndex) || vowelIndex == -1) {
+            if ((word.IndexOfAny(vowels) > -1 && word.IndexOfAny(vowels) < vowelIndex) || vowelIndex == -1) 
+            {
+                if (vowelIndex == -1) 
+                {
+                    // set firstVowelIndex
+                    firstVowelIndex = word.IndexOfAny(vowels);
+                    vowelIndex = word.IndexOfAny(vowels);
+                }
                 vowelIndex = word.IndexOfAny(vowels);
+            }
+            if (vowelIndex == -1) 
+            {
+                // if there are no vowels except 'y', break word on the 'y'
+                if (word.IndexOf('y') > -1)
+                {
+                    vowelIndex = word.IndexOf('y');
+                } else {
+                    vowelIndex = 0;
+                }
             }
             string firstPart = word.Substring(0, vowelIndex);
             string secondPart = word.Substring(vowelIndex);
@@ -49,14 +85,30 @@ namespace PigLatin
             } else {
                 pword = secondPart + firstPart + "ay";
             }
+            // reinsert all punctuation, either at its original index position, or after the ending
             foreach (var key in punctDict.Keys)
             {
-                if (key < word.Length)
+                // if punctuation appeared before the last letter,
+                if (key < upToLastLetter)
                 {
-                    pword = pword.Insert(key, punctDict[key]);
+                    // and if it's not an apostrophe (or if the word begins with a vowel)
+                    if (punctDict[key] != "'" || word.IndexOfAny(vowels) == 0 || key < firstLetterIndex) 
+                    {
+                        // insert mark at original index in word;
+                        pword = pword.Insert(key, punctDict[key]); 
+                    } else {
+                        // if an apostrophe, insert before the letter it originally preceded
+                        pword = pword.Insert(key - vowelIndex, punctDict[key]); 
+                    }
                 } else {
-                    pword = pword + punctDict[key];
+                    // if at end of original word, place after 'ay' or 'yay'
+                    pword = pword + punctDict[key]; 
                 }
+            }
+            // re-capitalize words, including those whose capitalized first letter occurs after one or more punctuation marks
+            if (capitalized) 
+            {   
+                pword = pword.Substring(0, firstLetterIndex) + pword[firstLetterIndex].ToString().ToUpper() + pword.Substring(firstLetterIndex + 1, pword.Length - firstLetterIndex - 1);
             }
             return pword;
         }

@@ -63,7 +63,6 @@ namespace PigLatin
                 {
                     // set firstVowelIndex
                     firstVowelIndex = word.IndexOfAny(vowels);
-                    vowelIndex = word.IndexOfAny(vowels);
                 }
                 vowelIndex = word.IndexOfAny(vowels);
             }

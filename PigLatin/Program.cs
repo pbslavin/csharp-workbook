@@ -47,6 +47,11 @@ namespace PigLatin
                     lastLetterIndex = i;
                 }
             }
+            // return original 'word' if only punctuation surrounded by spaces (like a dash)
+            if (firstLetterIndex == -1) 
+            {
+                return pword;
+            }
             if (Char.IsUpper(pword, firstLetterIndex)) 
             {
                 capitalized = true;

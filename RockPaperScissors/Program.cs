@@ -1,16 +1,28 @@
 ﻿using System;
+using System.Threading;
 
 namespace RockPaperScissors
 {
     class Program
     {
         public static void Main()
-        {
-            Console.WriteLine("Enter hand 1:");
-            string hand1 = Console.ReadLine().ToLower();
-            Console.WriteLine("Enter hand 2:");
-            string hand2 = Console.ReadLine().ToLower();
-            Console.WriteLine(CompareHands(hand1, hand2));
+        {   string playerHand = "";
+            string computerHand;
+            string [] validHands = new string [] {"rock", "paper", "scissors"};
+            while (!Array.Exists(validHands, element => element == playerHand))
+            {
+                Console.WriteLine("Enter hand 1:");
+                playerHand = Console.ReadLine().ToLower();
+                if (!Array.Exists(validHands, element => element == playerHand && playerHand != ""))
+                {
+                    Console.WriteLine("That's not a valid hand.");
+                }
+            }
+            Random rnd = new Random(); 
+            int computerIndex = rnd.Next(0,2);
+            computerHand = validHands[computerIndex];
+            Console.WriteLine("The computer picks {0}", computerHand);
+            Console.WriteLine(CompareHands(playerHand, computerHand));
             // leave this command at the end so your program does not close automatically
             Console.ReadLine();
         }

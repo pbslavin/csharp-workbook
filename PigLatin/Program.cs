@@ -115,5 +115,3 @@ namespace PigLatin
         }
     }
 }
-
-// still needs support for punctuation surrounded by spaces, such as dashes

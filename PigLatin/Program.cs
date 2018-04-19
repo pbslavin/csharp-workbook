@@ -84,14 +84,14 @@ namespace PigLatin
             } else {
                 pword = secondPart + firstPart + "ay";
             }
-            // reinsert all punctuation, either at its original index position, or after the ending
+            // reinsert all punctuation, either at its original index, or after the ending
             foreach (var key in punctDict.Keys)
             {
                 // if punctuation appeared before the last letter,
                 if (key < upToLastLetter)
                 {
-                    // and if it's not an apostrophe (or if the word begins with a vowel)
-                    if (punctDict[key] != "'" || word.IndexOfAny(vowels) == 0 || key < firstLetterIndex) 
+                    // and if it's not an apostrophe, is at the beginning of the word, or if the word begins with a vowel 
+                    if (punctDict[key] != "'" || key < firstLetterIndex || word.IndexOfAny(vowels) == 0) 
                     {
                         // insert mark at original index in word;
                         pword = pword.Insert(key, punctDict[key]); 
@@ -113,3 +113,6 @@ namespace PigLatin
         }
     }
 }
+
+// still needs support for apostrophe at end of word, which should stay with letter it follows
+// also still needs support for punctuation with spaces surrounding it

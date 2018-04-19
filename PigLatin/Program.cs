@@ -30,7 +30,6 @@ namespace PigLatin
             string word = "";
             int lastLetterIndex = 0;
             int firstLetterIndex = -1;
-            int firstVowelIndex = 0;
             int upToLastLetter;
             for (int i = 0; i < pword.Length; i ++)
             {
@@ -59,11 +58,6 @@ namespace PigLatin
             int vowelIndex = -1;
             if ((word.IndexOfAny(vowels) > -1 && word.IndexOfAny(vowels) < vowelIndex) || vowelIndex == -1) 
             {
-                if (vowelIndex == -1) 
-                {
-                    // set firstVowelIndex
-                    firstVowelIndex = word.IndexOfAny(vowels);
-                }
                 vowelIndex = word.IndexOfAny(vowels);
             }
             if (vowelIndex == -1) 
@@ -90,7 +84,7 @@ namespace PigLatin
                 // if punctuation appeared before the last letter,
                 if (key < upToLastLetter)
                 {
-                    // and if it's not an apostrophe, is at the beginning of the word, or if the word begins with a vowel 
+                    // and it's not an apostrophe, or it appears before the first letter in the word, or the word begins with a vowel, 
                     if (punctDict[key] != "'" || key < firstLetterIndex || word.IndexOfAny(vowels) == 0) 
                     {
                         // insert mark at original index in word;
@@ -99,8 +93,11 @@ namespace PigLatin
                         // if an apostrophe, insert before the letter it originally preceded
                         pword = pword.Insert(key - vowelIndex, punctDict[key]); 
                     }
+                // if an apostrophe at end of word, insert after letter it originally followed    
+                } else if (punctDict[key] == "'" && pword[0].ToString() != "'") {
+                    pword = pword.Insert(key - vowelIndex, punctDict[key]); 
                 } else {
-                    // if at end of original word, place after 'ay' or 'yay'
+                    // otherwise, if punctuation at end of original word, place after 'ay' or 'yay'
                     pword = pword + punctDict[key]; 
                 }
             }
@@ -114,5 +111,4 @@ namespace PigLatin
     }
 }
 
-// still needs support for apostrophe at end of word, which should stay with letter it follows
-// also still needs support for punctuation with spaces surrounding it
+// still needs support for punctuation surrounded by spaces, such as dashes

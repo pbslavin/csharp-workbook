@@ -29,9 +29,9 @@ namespace RockPaperScissors
                 Console.WriteLine("\nThe computer picks {0}.", computerHand);
                 Console.WriteLine(CompareHands(playerHand, computerHand));
                 Console.WriteLine("\nYou: {0}, Computer: {1}", scores[0], scores[1]);
-            // leave this command at the end so your program does not close automatically
-            Console.WriteLine("\nDo you want to play again? ('y' if yes, anything else if no)");
-            again = Console.ReadLine().ToLower().Trim();
+                // leave this command at the end so your program does not close automatically
+                Console.WriteLine("\nDo you want to play again? ('y' if yes, anything else if no)");
+                again = Console.ReadLine().ToLower().Trim();
             }
         }
         

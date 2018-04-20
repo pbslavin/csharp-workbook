@@ -23,28 +23,33 @@ namespace MyData
             n = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Please enter another integer: ");
             i = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("The sum of those integers is {0}.\n{0} yards is {1} inches.\n", n+i, n*12*3);
+            Console.WriteLine("The sum of those integers is {0}.\n{0} yards is {1} inches.\n", n + i, (n + i) * 12 * 3);
             Console.WriteLine("The square of the decimal value contained in the variable \"num\" is {0}", num*num);
             Console.WriteLine("\nI'm {0} {1}. I'm {2} years old and I am a {3}.", firstName, lastName, age, job);
             if (people == true) {
                 Console.WriteLine("\nThere are people...");
                 if (f == false) {
                     Console.WriteLine("but \"f\" is false.");
-                } else {
+                }
+                else
+                {
                     Console.WriteLine("and \"f\" is true!!");
                 }
-            } else {
+            }
+            else
+            {
                 Console.WriteLine("Uh oh -- no people...");
                 if (f == false) {
                     Console.WriteLine("but at least \"f\" is false.");
-                } else {
+                }
+                else
+                {
                     Console.WriteLine("and to top that off, \"f\" is true!!");
                 }
             }
             Console.WriteLine("\nMy favorite composers of the late 20th century are {0} and {1}.", favoriteComposer, anotherGreatComposer);
             Console.WriteLine("\nThe value contained in the variable \"num\", converted to an integer, is {0}.", Convert.ToInt32(num));
             Console.WriteLine("\nThe sum, product, difference and quotient of 100 and 10, respectively, are {0}, {1}, {2} and {3}.", ten+hun, ten*hun, hun-ten, hun/ten);
-
         }
     }
 }

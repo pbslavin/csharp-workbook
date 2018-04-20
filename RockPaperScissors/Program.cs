@@ -6,70 +6,78 @@ namespace RockPaperScissors
     class Program
     {
         static string [] validHands = new string [] {"rock", "paper", "scissors"};
+        static int [] scores = {0, 0};
         public static void Main()
-        {   string playerHand = "";
+        {   
             string computerHand;
-            while (!Array.Exists(validHands, element => element == playerHand))
+            string again = "y";
+            while (again == "y")
             {
-                Console.WriteLine("Enter hand 1:");
-                playerHand = Console.ReadLine().ToLower();
-                if (!Array.Exists(validHands, hand => hand == playerHand && playerHand != ""))
+                string playerHand = "";
+                while (!Array.Exists(validHands, element => element == playerHand))
                 {
-                    Console.WriteLine("That's not a valid hand.");
+                    Console.WriteLine("\nEnter hand 1:");
+                    playerHand = Console.ReadLine().ToLower().Trim();
+                    if (!Array.Exists(validHands, hand => hand == playerHand && playerHand != ""))
+                    {
+                        Console.WriteLine("\nThat's not a valid hand.");
+                    }
                 }
-            }
-            Random rnd = new Random(); 
-            int computerIndex = rnd.Next(0,2);
-            computerHand = validHands[computerIndex];
-            Console.WriteLine("The computer picks {0}.", computerHand);
-            string winner = CompareHands(playerHand, computerHand);
-            if (winner != "")
-            {
-                Console.WriteLine("{0} wins!", winner);
-            }
-            else
-            {
-                Console.WriteLine("It's a tie!");
-            }
+                Random rnd = new Random(); 
+                int computerIndex = rnd.Next(0, 2);
+                computerHand = validHands[computerIndex];
+                Console.WriteLine("\nThe computer picks {0}.", computerHand);
+                Console.WriteLine(CompareHands(playerHand, computerHand));
+                Console.WriteLine("\nYou: {0}, Computer: {1}", scores[0], scores[1]);
             // leave this command at the end so your program does not close automatically
-            Console.ReadLine();
+            Console.WriteLine("\nDo you want to play again? ('y' if yes, anything else if no)");
+            again = Console.ReadLine().ToLower().Trim();
+            }
         }
         
         public static string CompareHands(string hand1, string hand2)
         {
+            string computer = "\nComputer wins!";
+            string player = "\nYou win!";
             if (hand1 == hand2) 
                 {
-                    return "";
+                    return "\nIt's a tie!";
                 }
             if (hand1 == "rock")
             {
                 if (hand2 == "paper")
                 {
-                    return hand2;
+                    scores[1] += 1;
+                    return computer;
                 }
                 else
-                {
-                    return hand1;
+                {   
+                    scores[0] += 1;
+                    return player;
                 }
             }
             if (hand1 == "paper")
             {
                 if (hand2 == "scissors")
                 {
-                    return hand2;
+                    scores[1] += 1;
+                    return computer;
                 }
                 else
                 {
-                    return hand1;
+                    scores[0] += 1;
+                    return player;
                 }
             } 
             if (hand2 == "rock")
             {
-                return hand2;
+                scores[1] += 1;
+                return computer;
             }
             else
             {
-                return hand1;
+                scores[0] += 1;
+                return player;
             }
         }
     }

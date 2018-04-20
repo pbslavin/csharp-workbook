@@ -23,13 +23,15 @@ namespace TicTacToe
                 {
                     Console.WriteLine(playerTurn + " wins!");
                     break;
-                } else if (turn == 8)
+                }
+                else if (turn == 8)
                 {
                     Console.WriteLine("It's a tie.");
                     break;
                 }
                 playerTurn = (playerTurn == "X") ? "O" : "X";
-            } while (true);
+            }
+            while (true);
 
             // leave this command at the end so your program does not close automatically
             Console.ReadLine();

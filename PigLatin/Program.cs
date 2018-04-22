@@ -80,7 +80,9 @@ namespace PigLatin
             if (word.Length == secondPart.Length) 
             {
                 pword = word + "yay";
-            } else {
+            } 
+            else 
+            {
                 pword = secondPart + firstPart + "ay";
             }
             // reinsert all punctuation, either at its original index, or after the ending
@@ -94,14 +96,20 @@ namespace PigLatin
                     {
                         // insert mark at original index in word;
                         pword = pword.Insert(key, punctDict[key]); 
-                    } else {
+                    } 
+                    else 
+                    {
                         // if an apostrophe, insert before the letter it originally preceded
                         pword = pword.Insert(key - vowelIndex, punctDict[key]); 
                     }
                 // if an apostrophe at end of word, insert after letter it originally followed    
-                } else if (punctDict[key] == "'" && pword[0].ToString() != "'") {
+                } 
+                else if (punctDict[key] == "'" && pword[0].ToString() != "'") 
+                {
                     pword = pword.Insert(key - vowelIndex, punctDict[key]); 
-                } else {
+                } 
+                else 
+                {
                     // otherwise, if punctuation at end of original word, place after 'ay' or 'yay'
                     pword = pword + punctDict[key]; 
                 }

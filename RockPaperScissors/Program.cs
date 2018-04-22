@@ -11,6 +11,7 @@ namespace RockPaperScissors
         {   
             string computerHand;
             string again = "y";
+
             while (again == "y")
             {
                 string playerHand = "";
@@ -18,13 +19,13 @@ namespace RockPaperScissors
                 {
                     Console.WriteLine("\nEnter hand 1:");
                     playerHand = Console.ReadLine().ToLower().Trim();
-                    if (!Array.Exists(validHands, hand => hand == playerHand && playerHand != ""))
-                    {
+                    if (!Array.Exists(validHands, hand => hand == playerHand))
+                    {   
                         Console.WriteLine("\nThat's not a valid hand.");
                     }
                 }
                 Random rnd = new Random(); 
-                int computerIndex = rnd.Next(0, 2);
+                int computerIndex = rnd.Next(0, 3);
                 computerHand = validHands[computerIndex];
                 Console.WriteLine("\nThe computer picks {0}.", computerHand);
                 Console.WriteLine(CompareHands(playerHand, computerHand));

@@ -10,26 +10,55 @@ namespace RockPaperScissors
         public static void Main()
         {   
             string computerHand;
+            string handNumber;
             string again = "y";
 
             while (again == "y")
-            {
+            {   
+                bool win = false;
+                bool flag = false;
                 string playerHand = "";
-                while (!Array.Exists(validHands, element => element == playerHand))
+                while (flag == false)
                 {
-                    Console.WriteLine("\nEnter hand 1:");
-                    playerHand = Console.ReadLine().ToLower().Trim();
-                    if (!Array.Exists(validHands, hand => hand == playerHand))
+                    Console.WriteLine("\nChoose hand number: rock = 1, paper = 2, scissors = 3");
+                    try
+                    {
+                        flag = true;
+                        handNumber = Console.ReadLine();
+                        if (handNumber == "autowin")
+                        {   
+                            Console.WriteLine("\nYou win!!");
+                            win = true;
+                            scores[0] += 1;
+                            again = "";
+                            break;
+                        }
+                        if (Convert.ToInt32(handNumber) > 3)
+                        {
+                            handNumber = "";
+                        }
+                        playerHand = validHands[Convert.ToInt32(handNumber) - 1];
+                    }
+                    catch
                     {   
+                        flag = false;
                         Console.WriteLine("\nThat's not a valid hand.");
                     }
+                    finally
+                    {
+                        handNumber = "";
+                    }
                 }
-                Random rnd = new Random(); 
-                int computerIndex = rnd.Next(0, 3);
-                computerHand = validHands[computerIndex];
-                Console.WriteLine("\nThe computer picks {0}.", computerHand);
-                Console.WriteLine(CompareHands(playerHand, computerHand));
-                Console.WriteLine("\nYou: {0}, Computer: {1}", scores[0], scores[1]);
+                if (!win)
+                {
+                    Random rnd = new Random(); 
+                    int computerIndex = rnd.Next(0, 3);
+                    computerHand = validHands[computerIndex];
+                    Console.WriteLine("\nYou pick {0}.", playerHand);
+                    Console.WriteLine("The computer picks {0}.", computerHand);
+                    Console.WriteLine(CompareHands(playerHand, computerHand));
+                }
+                Console.WriteLine("You: {0}, Computer: {1}", scores[0], scores[1]);
                 Console.WriteLine("\nDo you want to play again? ('y' if yes, anything else if no)");
                 again = Console.ReadLine().ToLower().Trim();
             }
@@ -38,7 +67,7 @@ namespace RockPaperScissors
         public static string CompareHands(string hand1, string hand2)
         {
             string computer = "\nComputer wins!";
-            string player = "\nYou win!";
+            string player = "\nYou win!\n";
             if (hand1 == hand2) 
                 {
                     return "\nIt's a tie!";

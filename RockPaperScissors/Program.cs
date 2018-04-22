@@ -123,7 +123,7 @@ namespace RockPaperScissors
 
 public class HandException : Exception
 {
-    public HandException(string message) : base (message)
+    public HandException(string message) : base(message)
     {
     }
 }

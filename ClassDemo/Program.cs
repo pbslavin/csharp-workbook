@@ -12,22 +12,32 @@ namespace ClassDemo
 
             Students student1 = new Students("Kevin");
             student1.HoursStudiedProp = 24;
+            Console.WriteLine(student1.ToString());
             points = student1.CalculatePoints(100, 40);
             Console.WriteLine("Points = {0}", points);
 
             Students student2 = new Students("Chris");
             student2.HoursStudiedProp = 66;
+            Console.WriteLine(student2.ToString());
             points = student2.CalculatePoints(50, 30);
             Console.WriteLine("Points = {0}", points);
 
             Students student3 = new Students("Luke");
             student3.HoursStudiedProp = 98;
+            Console.WriteLine(student3.ToString());
             points = student3.CalculatePoints(20, 100);
             Console.WriteLine("Points = {0}", points);
 
             Students student4 = new Students("Peter");
             student4.HoursStudiedProp = 80;
-            points = student4.CalculatePoints();
+            Console.WriteLine(student4.ToString());
+            points = student4.CalculatePoints(15, 50);
+            Console.WriteLine("Points = {0}", points);
+
+            Students student5 = new Students("Renee");
+            student5.HoursStudiedProp = 110;
+            Console.WriteLine(student5.ToString());
+            points = student5.CalculatePoints();
             Console.WriteLine("Points = {0}", points);
         }
     }

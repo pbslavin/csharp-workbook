@@ -5,72 +5,81 @@ namespace RockPaperScissors
 {
     class Program
     {
-        static string [] validHands = new string [] {"rock", "paper", "scissors"};
+        static string [] validHands = new string [] {"rock",
+            "paper", "scissors"};
         static int [] scores = {0, 0};
         public static void Main()
         {   
             string computerHand;
-            string handNumber;
             string again = "y";
 
             while (again == "y")
             {   
                 bool win = false;
-                bool flag = false;
+                bool valid = false;
                 string playerHand = "";
-                while (flag == false)
+
+                while (valid == false)
                 {
-                    Console.WriteLine("\nChoose hand number: rock = 1, paper = 2, scissors = 3");
+                    Console.WriteLine(
+                        "\nEnter 'rock', 'paper, or 'scissors' " +
+                        "(without quotation marks)"
+                        );
+                    playerHand = Console.ReadLine().ToLower().Trim();
+
+                    if (playerHand == "autowin")
+                    {
+                        valid = true;
+                        win = true;
+                        scores[0] += 1;
+                        Console.WriteLine("\nYou win automatically!!\n");
+                        break;
+                    }
+
                     try
                     {
-                        flag = true;
-                        handNumber = Console.ReadLine();
-                        if (handNumber == "autowin")
-                        {   
-                            Console.WriteLine("\nYou win!!");
-                            win = true;
-                            scores[0] += 1;
-                            again = "";
-                            break;
-                        }
-                        if (Convert.ToInt32(handNumber) > 3)
+                        if (Array.Exists(validHands,
+                            hand => hand == playerHand))
                         {
-                            handNumber = "";
+                            valid = true;
                         }
-                        playerHand = validHands[Convert.ToInt32(handNumber) - 1];
+                        else
+                        {
+                            throw new HandException("Hand exception: " +
+                                                    "That hand is invalid.");
+                        }
                     }
-                    catch
+                    catch (HandException ihx)
                     {   
-                        flag = false;
-                        Console.WriteLine("\nThat's not a valid hand.");
-                    }
-                    finally
-                    {
-                        handNumber = "";
+                        valid = false;
+                        Console.WriteLine(ihx.Message.ToString());
                     }
                 }
-                if (!win)
+                if (win == false)
                 {
                     Random rnd = new Random(); 
                     int computerIndex = rnd.Next(0, 3);
                     computerHand = validHands[computerIndex];
                     Console.WriteLine("\nYou pick {0}.", playerHand);
-                    Console.WriteLine("The computer picks {0}.", computerHand);
+                    Console.WriteLine("The computer picks {0}.",
+                        computerHand);
                     Console.WriteLine(CompareHands(playerHand, computerHand));
                 }
-                Console.WriteLine("You: {0}, Computer: {1}", scores[0], scores[1]);
-                Console.WriteLine("\nDo you want to play again? ('y' if yes, anything else if no)");
+                Console.WriteLine("You: {0}, Computer: {1}",
+                    scores[0], scores[1]);
+                Console.WriteLine("\nDo you want to play again?" +
+                                  "('y' if yes, anything else if no)");
                 again = Console.ReadLine().ToLower().Trim();
             }
         }
         
         public static string CompareHands(string hand1, string hand2)
         {
-            string computer = "\nComputer wins!";
+            string computer = "\nThe computer wins!\n";
             string player = "\nYou win!\n";
             if (hand1 == hand2) 
                 {
-                    return "\nIt's a tie!";
+                    return "\nIt's a tie!\n";
                 }
             if (hand1 == "rock")
             {
@@ -109,5 +118,12 @@ namespace RockPaperScissors
                 return player;
             }
         }
+    }
+}
+
+public class HandException : Exception
+{
+    public HandException(string message) : base (message)
+    {
     }
 }

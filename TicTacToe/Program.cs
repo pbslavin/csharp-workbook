@@ -38,13 +38,28 @@ namespace TicTacToe
         }
 
         public static void GetInput()
-        {
-            Console.WriteLine("Player " + playerTurn);
-            Console.WriteLine("Enter Row:");
-            int row = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter Column:");
-            int column = int.Parse(Console.ReadLine());
-            PlaceMark(row, column);
+        {   
+            bool invalid = true;
+            while (invalid)
+            {
+                Console.WriteLine("Player " + playerTurn);
+                Console.WriteLine("Enter Row:");
+                int row = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter Column:");
+                int column = int.Parse(Console.ReadLine());
+                
+                // Check if cell is occupied
+                if (board[row][column] != " ") 
+                {
+                    Console.WriteLine("That cell is occupied.");
+                    invalid = true;
+                }
+                else
+                {
+                    invalid = false;
+                    PlaceMark(row, column);
+                }
+            }
         }
 
         public static void PlaceMark(int row, int column)

@@ -2,7 +2,7 @@
 
 namespace TicTacToe
 {
-    class Program
+    public class Program
     {
         public static string playerTurn = "X";
         public static string[][] board = new string[][]

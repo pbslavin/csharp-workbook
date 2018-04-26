@@ -105,42 +105,6 @@ namespace RockPaperScissors
                     return "\nThe computer wins!\n";
                 }
             }
-            // if (hand1 == "rock")
-            // {
-            //     if (hand2 == "paper")
-            //     {
-            //         scores[1] += 1;
-            //         return computer;
-            //     }
-            //     else
-            //     {   
-            //         scores[0] += 1;
-            //         return player;
-            //     }
-            // }
-            // if (hand1 == "paper")
-            // {
-            //     if (hand2 == "scissors")
-            //     {
-            //         scores[1] += 1;
-            //         return computer;
-            //     }
-            //     else
-            //     {
-            //         scores[0] += 1;
-            //         return player;
-            //     }
-            // } 
-            // if (hand2 == "rock")
-            // {
-            //     scores[1] += 1;
-            //     return computer;
-            // }
-            // else
-            // {
-            //     scores[0] += 1;
-            //     return player;
-            // }
         }
     }
 }

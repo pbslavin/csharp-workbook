@@ -6,10 +6,10 @@ namespace Checkpoint1
     {
         static void Main(string[] args)
         {
-            // DivByThree();
-            // Sum();
-            // Factorial();
-            // Guess();
+            DivByThree();
+            Sum();
+            Factorial();
+            Guess();
             FindMax();
         }
 
@@ -24,6 +24,7 @@ namespace Checkpoint1
                 }
             }
             Console.WriteLine(count);
+            Console.ReadLine();
         }
 
         static public void Sum()
@@ -50,7 +51,6 @@ namespace Checkpoint1
                                       "'ok' or 'OK'.");
                 }
             }
-
         }
 
         static public void Factorial() 
@@ -76,6 +76,7 @@ namespace Checkpoint1
                 fact *= i;
             }
            Console.WriteLine("{0}! = {1}", entry, fact);
+           Console.ReadLine();
         }
 
         static public void Guess()
@@ -83,7 +84,6 @@ namespace Checkpoint1
             int counter = 4;
             Random rnd = new Random();
             int secret = rnd.Next(0, 10);
-            Console.WriteLine(secret);
             Console.WriteLine("Try to guess the secret number " +
                               "between 1 and 10:");
             while (counter > 0)

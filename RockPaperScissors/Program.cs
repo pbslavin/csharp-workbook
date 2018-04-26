@@ -75,48 +75,72 @@ namespace RockPaperScissors
         
         public static string CompareHands(string hand1, string hand2)
         {
-            string computer = "\nThe computer wins!\n";
-            string player = "\nYou win!\n";
             if (hand1 == hand2) 
                 {
                     return "\nIt's a tie!\n";
                 }
-            if (hand1 == "rock")
+            if (hand1 != "rock")
             {
-                if (hand2 == "paper")
-                {
-                    scores[1] += 1;
-                    return computer;
-                }
-                else
+                if (validHands[Array.IndexOf(validHands, hand1) - 1] == hand2)
                 {   
                     scores[0] += 1;
-                    return player;
-                }
-            }
-            if (hand1 == "paper")
-            {
-                if (hand2 == "scissors")
-                {
-                    scores[1] += 1;
-                    return computer;
+                    return "\nYou win!\n";
                 }
                 else
                 {
-                    scores[0] += 1;
-                    return player;
+                    scores[1] += 1;
+                    return "\nThe computer wins!\n";
                 }
-            } 
-            if (hand2 == "rock")
-            {
-                scores[1] += 1;
-                return computer;
             }
             else
             {
-                scores[0] += 1;
-                return player;
+                if (hand2 == "scissors")
+                {
+                    scores[0] += 1;
+                    return "\nYou win!\n";
+                }
+                else
+                {
+                    scores[1] += 1;
+                    return "\nThe computer wins!\n";
+                }
             }
+            // if (hand1 == "rock")
+            // {
+            //     if (hand2 == "paper")
+            //     {
+            //         scores[1] += 1;
+            //         return computer;
+            //     }
+            //     else
+            //     {   
+            //         scores[0] += 1;
+            //         return player;
+            //     }
+            // }
+            // if (hand1 == "paper")
+            // {
+            //     if (hand2 == "scissors")
+            //     {
+            //         scores[1] += 1;
+            //         return computer;
+            //     }
+            //     else
+            //     {
+            //         scores[0] += 1;
+            //         return player;
+            //     }
+            // } 
+            // if (hand2 == "rock")
+            // {
+            //     scores[1] += 1;
+            //     return computer;
+            // }
+            // else
+            // {
+            //     scores[0] += 1;
+            //     return player;
+            // }
         }
     }
 }

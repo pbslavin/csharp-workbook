@@ -138,7 +138,7 @@ namespace TicTacToe
                     {
                         break;
                     }
-                    else if (j == 2)
+                    if (j == 2)
                     {
                         return true;
                     }
@@ -157,7 +157,7 @@ namespace TicTacToe
                     {
                         break;
                     }
-                    else if (j == 2)
+                    if (j == 2)
                     {
                         return true;
                     }
@@ -174,7 +174,7 @@ namespace TicTacToe
                 {
                     break;
                 }
-                else if (i == 2)
+                if (i == 2)
                     {
                         return true;
                     }
@@ -185,7 +185,7 @@ namespace TicTacToe
                 {
                     break;
                 }
-                else if (i == 2)
+                if (i == 2)
                 {
                     return true;
                 }

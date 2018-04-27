@@ -168,9 +168,9 @@ namespace TicTacToe
 
         public static bool DiagonalWin()
         {
-            for (int i = 0; i < 3; i ++)
+            for (int i = 1; i < 3; i ++)
             {
-                if (board[i][i] != board[1][1] || board[i][i] == " ")
+                if (board[i][i] != board[0][0] || board[i][i] == " ")
                 {
                     break;
                 }
@@ -179,9 +179,9 @@ namespace TicTacToe
                         return true;
                     }
             }
-            for (int i = 0; i < 3; i ++)
+            for (int i = 1; i < 3; i ++)
             {
-                if (board[i][2 - i] != board[1][1] || board[i][2 - i] == " ")
+                if (board[i][2 - i] != board[0][2] || board[i][2 - i] == " ")
                 {
                     break;
                 }

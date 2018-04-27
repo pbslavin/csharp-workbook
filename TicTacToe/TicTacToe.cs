@@ -31,7 +31,7 @@ namespace TicTacToe
                     break;
                 }
                 // after 8 turns, the final possible move is made automatically
-                else if (turn == 8)
+                if (turn == 8)
                 {   
                     playerTurn = (playerTurn == "X") ? "O" : "X";
                     for (int i = 0; i < 3; i ++)

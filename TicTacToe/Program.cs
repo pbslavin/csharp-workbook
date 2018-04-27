@@ -49,7 +49,7 @@ namespace TicTacToe
                 occupied = false;
                 Console.WriteLine("Player " + playerTurn);
 
-                // take row input and check if row is valid
+                // take row input and check if valid
                 do
                 {
                     Console.WriteLine("Enter Row:");
@@ -75,7 +75,7 @@ namespace TicTacToe
                 }
                 while (invalidRow);
 
-                // take row input and check if row is valid
+                // take column input and check if valid
                 do
                 {
                     Console.WriteLine("Enter Column:");

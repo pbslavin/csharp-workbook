@@ -49,11 +49,9 @@ namespace TicTacToe
                        Console.WriteLine(playerTurn + " wins!");
                         break; 
                     }
-                    else
-                    {
-                        Console.WriteLine("It's a tie.");
-                        break;
-                    }
+
+                    Console.WriteLine("It's a tie.");
+                    break;
                 }
                 playerTurn = (playerTurn == "X") ? "O" : "X";
             }

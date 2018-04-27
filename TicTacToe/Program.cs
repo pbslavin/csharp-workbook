@@ -24,10 +24,30 @@ namespace TicTacToe
                     Console.WriteLine(playerTurn + " wins!");
                     break;
                 }
+                // after 8 turns, the final possible move is made automatically
                 else if (turn == 8)
-                {
-                    Console.WriteLine("It's a tie.");
-                    break;
+                {   
+                    playerTurn = (playerTurn == "X") ? "O" : "X";
+                    for (int i = 0; i < 3; i ++)
+                    {
+                        for (int j = 0; j < 3; j ++)
+                        {
+                            if (board[i][j] == " ")
+                            {
+                                PlaceMark(i, j);
+                            }
+                        }
+                    }
+                    if (CheckForWin())
+                    {
+                       Console.WriteLine(playerTurn + " wins!");
+                        break; 
+                    }
+                    else
+                    {
+                        Console.WriteLine("It's a tie.");
+                        break;
+                    }
                 }
                 playerTurn = (playerTurn == "X") ? "O" : "X";
             }
@@ -35,6 +55,11 @@ namespace TicTacToe
 
             // leave this command at the end so your program does not close automatically
             Console.ReadLine();
+        }
+
+        public static void invalidEntry()
+        {
+            Console.WriteLine("That entry is invalid.");
         }
 
         public static void GetInput()
@@ -60,7 +85,7 @@ namespace TicTacToe
                     catch
                     {
                         invalidRow = true;
-                        Console.WriteLine("That entry is invalid");
+                        invalidEntry();
                         continue;
                     }
                     if (row > -1 && row < 3)
@@ -70,7 +95,7 @@ namespace TicTacToe
                     else
                     {
                         invalidRow = true;
-                        Console.WriteLine("That entry is invalid");
+                        invalidEntry();
                     }
                 }
                 while (invalidRow);
@@ -86,7 +111,7 @@ namespace TicTacToe
                     catch
                     {
                         invalidColumn = true;
-                        Console.WriteLine("That entry is invalid");
+                        invalidEntry();
                         continue;
                     }
                     if (column > -1 && column < 3)
@@ -96,7 +121,7 @@ namespace TicTacToe
                     else
                     {
                         invalidColumn = true;
-                        Console.WriteLine("That entry is invalid");
+                        invalidEntry();
                     }
                 }
                 while (invalidColumn);

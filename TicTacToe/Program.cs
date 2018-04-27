@@ -4,7 +4,7 @@ namespace TicTacToe
 {
     public class Program
     {
-        public static string playerTurn = "X";
+        public static string playerTurn;
         public static string[][] board = new string[][]
         {
             new string[] {" ", " ", " "},
@@ -16,8 +16,14 @@ namespace TicTacToe
         public static void Main()
         {
             DrawBoard();
+            while (playerTurn != "X" && playerTurn != "O")
+            {
+                Console.WriteLine("Play 'X' or 'O'?");
+                playerTurn = Console.ReadLine().ToUpper();
+            }
             do
-            {   turn += 1;
+            {   
+                turn += 1;
                 GetInput();
                 if (CheckForWin()) 
                 {

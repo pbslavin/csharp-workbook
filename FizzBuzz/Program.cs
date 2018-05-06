@@ -7,15 +7,22 @@ namespace FizzBuzz
         static bool isNumeric = false;
         static void Main()
         {
-            while (!isNumeric) {
+            while (!isNumeric) 
+            {
                 Console.WriteLine("Please enter a natural number up to 100.: ");
                 string numString = Console.ReadLine();
                 isNumeric = Int32.TryParse(numString, out int n);
                 if (isNumeric)
-                {   
-                    FizzBuzzIt(n);
-                } else {
-                    Console.WriteLine("That won't cut it.\n");
+                {
+                    if (n > 0 && n < 101)
+                    {   
+                        FizzBuzzIt(n);
+                    } 
+                    else
+                    {
+                        Console.WriteLine("That won't cut it.\n");
+                        isNumeric = false;
+                    }
                 }
             }
         }

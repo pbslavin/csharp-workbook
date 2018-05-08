@@ -16,27 +16,15 @@ namespace TowersOfHanoi
             Rod rodThree = new Rod(new Disc[4], "3");
             Rod fromRod = null;
             Rod toRod = null;
-            // rodOne.checkAndMove(rodTwo);
-            // rodOne.checkAndMove(rodThree);
-            // rodTwo.checkAndMove(rodThree);
-            // rodOne.checkAndMove(rodTwo);
-            // rodThree.checkAndMove(rodOne);
-            // rodThree.checkAndMove(rodTwo);
-            // rodOne.checkAndMove(rodTwo);
-            // rodOne.checkAndMove(rodThree);
-            // rodTwo.checkAndMove(rodOne);
-            // rodTwo.checkAndMove(rodThree);
-            // rodOne.checkAndMove(rodTwo);
-            // rodThree.checkAndMove(rodOne);
-            // rodTwo.checkAndMove(rodOne);
-            // rodTwo.checkAndMove(rodThree);
-            // rodOne.checkAndMove(rodTwo);
-            // rodOne.checkAndMove(rodThree);
-            // rodTwo.checkAndMove(rodThree);
+
+            Console.WriteLine("");
             rodOne.reportDiscs();
+            rodTwo.reportDiscs();
+            rodThree.reportDiscs();
+            Console.WriteLine("");
             while (rodOne.winFlag == false && rodTwo.winFlag == false && rodThree.winFlag == false)
             {
-                Console.WriteLine("\nMove from? (Enter 1, 2 or 3)");
+                Console.WriteLine("Move from? (Enter 1, 2 or 3)");
                 string from = Console.ReadLine();
                 Console.WriteLine("Move to? (Enter 1, 2 or 3)");
                 string to = Console.ReadLine();
@@ -52,23 +40,37 @@ namespace TowersOfHanoi
                         toRod = rod;
                     }
                 }
-                fromRod.checkAndMove(toRod);
+                if (fromRod != null && toRod != null)
+                {
+                    fromRod.checkAndMove(toRod);
+                    fromRod = null;
+                    toRod = null;
+                }
+                else
+                {
+                    rodOne.printErrorMessage();        
+                }
                 rodOne.reportDiscs();
                 rodTwo.reportDiscs();
                 rodThree.reportDiscs();
+                Console.WriteLine("");
             }
         }
 
         class Rod 
         {
             public bool winFlag = false;
+
             public Rod(Disc[] initialStack, string num)
             {
                 Number = num;
                 Stack = initialStack;
             }
+
             public string Number { get; private set; }
+
             public Disc[] Stack { get; private set; }
+
             public void checkAndMove(Rod dest)
             { 
                 if (this.Stack[0] != null)
@@ -76,7 +78,7 @@ namespace TowersOfHanoi
                     Disc md = this.MoveDisc(dest);
                     if (md != null)
                     {
-                        Console.WriteLine($"\nMoved size {md.Size} disc to rod {dest.Number}");
+                        Console.WriteLine($"\nMoved size {md.Size} disc to rod {dest.Number}\n");
                         if (dest.checkForWin())
                         {
                             dest.winFlag = true;
@@ -84,8 +86,9 @@ namespace TowersOfHanoi
                         return;
                     }
                 }
-                Console.WriteLine("Try again"); 
+                printErrorMessage(); 
             }
+
             private Disc MoveDisc(Rod dest)
             {
                 Disc moved = new Disc(0);
@@ -114,16 +117,16 @@ namespace TowersOfHanoi
                     return dest.Stack[0] = moved;
                 }
                 
-                // replace disc in original position if move is invalid
+                // replace disc in its original position if move is invalid
                 this.Stack[i] = moved;
                 return null;
             }
 
             public void reportDiscs()
-            {
+            {   
+                Console.Write($"Rod {this.Number}: ");
                 if (this.Stack[0] != null)
-                {   
-                    Console.Write($"Rod {this.Number}: ");
+                {
                     foreach (Disc disc in this.Stack)
                     {
                         if (disc != null)
@@ -131,14 +134,20 @@ namespace TowersOfHanoi
                             Console.Write($"{disc.Size} ");
                         }
                     }
-                Console.WriteLine("");
                 }
+            Console.WriteLine("");
             }
+
+            public void printErrorMessage()
+            {
+                Console.WriteLine("\nTry again!\n");
+            }
+
             public bool checkForWin()
             {
                 if (this.Stack[this.Stack.Length - 1] != null)
                 {
-                    Console.WriteLine("\nYou win!\n");
+                    Console.WriteLine("You win!\n");
                     return true;
                 }
                 return false;

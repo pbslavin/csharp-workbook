@@ -1,17 +1,35 @@
 ﻿using System;
 
-namespace HelloWorld
+namespace StarWars
 {
     class Program
     {
         static void Main(string[] args)
         {
             Person leia = new Person("Leia", "Organa", "Rebel");
+            Person luke = new Person("Luke", "Skywalker", "Alliance");
             Person darth = new Person("Darth", "Vader", "Imperial");
-            Ship falcon = new Ship("Rebel", "smuggling", 2);
-            Ship tie = new Ship("Imperial", "fighter", 1);
-            Console.WriteLine("");
+            Person han = new Person("Han", "Solo", "Alliance");
+            Person palpatine = new Person("Emperor", "Palpatine", "Imperial");
+            Person obiwan = new Person("Obi-wan", "Kenobi", "Alliance");
+            Ship falcon = new Ship("Millennium Falcon", "Rebel", "smuggling", 3);
+            Ship tie = new Ship("Tie Fighter", "Imperial", "fighter", 1);
+            Ship dtie = new Ship("Darth Vader's Tie Fighter", "Imperial", "fighter", 1);
+            Ship xwing = new Ship("X-Wing", "Alliance", "fighter", 1);
+            xwing.EnterShip(obiwan, 0);
+            dtie.EnterShip(darth, 0);
+            falcon.EnterShip(han, 0);
+            falcon.EnterShip(leia, 1);
+            falcon.EnterShip(luke, 2);
+            tie.EnterShip(palpatine, 0);
+            Ship[] initialDSShips = { tie, dtie };
+            Ship[] initialRSShips = { falcon, xwing };
+            Station deathStar = new Station("Death Star", "Imperial", 5, initialDSShips);
+            Station rebelSpaceStation = new Station("Rebel Space Station", "Alliance", 2, initialRSShips);
+            deathStar.Roster();
+            rebelSpaceStation.Roster();
 
+            Console.WriteLine("");
         }
     }
 
@@ -45,14 +63,17 @@ namespace HelloWorld
 
     class Ship
     {
-        private Person[] passengers;
+        internal Person[] passengers;
 
-        public Ship(string type, string alliance, int size)
+        public Ship(string name, string type, string alliance, int size)
         {
+            this.Name = name;
             this.Type = type;
             this.Alliance = alliance;
             this.passengers = new Person[size];
         }
+
+        public string Name { get; private set; }
 
         public string Type { get; set; }
 
@@ -63,15 +84,18 @@ namespace HelloWorld
             get
             {
                 string names = "Passenger list: ";
-                foreach (var person in passengers)
+                for (int i = 0; i < passengers.Length; i ++)
                 {
-                    if (person != null)
+                    if (passengers[i] != null)
                     {
-                        names += person.FullName + " ";
+                        names += passengers[i].FullName;
+                        if (i < passengers.Length - 1 && passengers[i + 1] != null)
+                        {
+                            names += ", ";
+                        }
                     }
                 }
                 return names;
-                
             }
         }
 
@@ -83,6 +107,36 @@ namespace HelloWorld
         public void ExitShip(int seat)
         {
             this.passengers[seat] = null;
+        }
+    }
+
+    class Station 
+    {
+        public Station(string name, string alliance, int capacity, Ship[] ships)
+        {
+            Name = name;
+            Alliance = alliance;
+            Capacity = capacity;
+            Ships = ships;
+        }
+
+        public string Name { get; private set; } 
+
+        public string Alliance { get; private set; }
+
+        public int Capacity { get; private set; }
+
+        public Ship[] Ships { get; private set; }
+
+        public void Roster()
+        {
+            foreach (Ship ship in Ships)
+            {
+                Console.WriteLine("");
+                Console.Write("Ship: ");
+                Console.WriteLine(ship.Name);
+                Console.WriteLine(ship.Passengers);
+            }
         }
     }
 }

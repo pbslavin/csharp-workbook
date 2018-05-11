@@ -61,8 +61,6 @@ namespace TowersOfHanoi
 
     class Rod 
     {
-        // public bool winFlag = false;
-
         public static void printErrorMessage()
         {
             Console.WriteLine("\nTry again!\n");

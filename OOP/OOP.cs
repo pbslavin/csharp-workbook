@@ -55,7 +55,7 @@ namespace OOP
             get {
                 return people;
             }
-            set {
+            private set {
                 people = value;
             }
         }
@@ -120,10 +120,11 @@ namespace OOP
                         report += String.Format("\nThe {0} car is in spot {1}", cars[i].Color, i);
                         if (cars[i].People != null)
                         {
-                            report += cars[i].PeopleReport();
+                            report += cars[i].PeopleReport() + "\n";
                         }
                     }
                 }
+                report += "\n--End of Report--";
                 return report;
             }
         }

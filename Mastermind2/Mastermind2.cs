@@ -125,16 +125,14 @@ namespace Mastermind2
     {
         static void Main(string[] args)
         {   
-            // int numberOfPegs = 4;
+            int numberOfPegs = 4;
             char[] letters = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
-            // Random rand = new Random();
-            // char[] randRow = new char[4];
-            // for (int i = 0; i < numberOfPegs; i ++)
-            // {
-            //     randRow[i] = letters[rand.Next(0, 7)];
-            // }
-
-            char[] randRow = new char[] {'c','e','a','c'};
+            Random rand = new Random();
+            char[] randRow = new char[4];
+            for (int i = 0; i < numberOfPegs; i ++)
+            {
+                randRow[i] = letters[rand.Next(0, 7)];
+            }
 
             Row answerRow = new Row(randRow);
 
@@ -172,8 +170,9 @@ namespace Mastermind2
             }
             if (!game.Win)
             {
-                Console.WriteLine("Game over\n");
-                Console.WriteLine(game.Answer);
+                Console.WriteLine("\nGame Over");
+                string answ = new string(game.Answer);
+                Console.WriteLine($"Answer: {answ}\n");
             }
         }
     }

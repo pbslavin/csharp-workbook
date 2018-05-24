@@ -16,6 +16,23 @@ namespace Rainforest
             this.name = name;
             this.warehouses = new List<Warehouse>();
         }
+
+        public void Manifest()
+        {
+            Console.WriteLine("\n" + this.name);
+            foreach (Warehouse warehouse in this.warehouses)
+            {
+                Console.WriteLine($"  {warehouse.location}");
+                foreach (Container container in warehouse.containers)
+                {
+                    Console.WriteLine($"    {container.id}");
+                    foreach (Item item in container.items)
+                    {
+                        Console.WriteLine($"      {item.name}");
+                    }
+                }
+            }
+        }
     }
 
     class Warehouse
@@ -104,7 +121,7 @@ namespace Rainforest
             for (int i = 0; i < rainforest.warehouses.Count; i ++)
             {
                 Warehouse warehouse = rainforest.warehouses[i];
-                Container container = new Container(i + 1, $"{warehouse.location} - 1");
+                Container container = new Container(i + 2, $"{warehouse.location}-01");
                 Console.WriteLine(rainforest.warehouses[i].AddContainer(container));
             }
 
@@ -127,6 +144,7 @@ namespace Rainforest
                         rainforest.warehouses[i].location });
                 }
             }
+
             for (int i = 0; i < rainforest.warehouses.Count; i ++)
             {
                 Container container = rainforest.warehouses[i].containers[0];
@@ -146,11 +164,16 @@ namespace Rainforest
                         rainforest.warehouses[i].location });
                 }
             }
-            for (int i = 0; i < rainforest.index["Banana"].Count; i ++)
+
+            rainforest.Manifest();
+
+            string searchItem = "Banana";
+            for (int i = 0; i < rainforest.index[searchItem].Count; i ++)
             {
+                Console.Write($"\n{searchItem}: ");
                 for (int j = 0; j < 2; j ++)
                 {
-                    Console.WriteLine(rainforest.index["Banana"][i][j]);
+                    Console.WriteLine($"{rainforest.index[searchItem][i][j]}");
                 }
             }
             

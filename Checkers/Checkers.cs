@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Checkers
 {
@@ -152,6 +153,15 @@ namespace Checkers
             }
             return;
         }
+
+        public void PlaceChecker(Checker checker, int row, int column)
+        {
+            checker.Position[0] = row;
+            checker.Position[1] = column;
+            this.PlaceCheckers();
+            this.DrawBoard();
+
+        }
         
         public void DrawBoard()
         {   
@@ -163,72 +173,122 @@ namespace Checkers
         
         public Checker SelectChecker(int row, int column)
         {
-            return Checkers.Find(x => x.Position.SequenceEqual(new int[] { row, column }));
+            return Checkers.Find(x => x.Position.SequenceEqual(
+                new int[] { row, column }));
         }
 
         public void MoveChecker(Checker checker, int row, int column)
         {
-            if (Math.Abs(row - checker.Position[0]) == 2 || Math.Abs(column - checker.Position[1]) == 2)
-            {
-                // straight up
-                if (row - checker.Position[0] == -2 && column - checker.Position[1] == 0)
+            if (Checkers.Find(x => x.Position.SequenceEqual(
+                new int[] { row, column })) == null)
+            {        
+                if ((Math.Abs(row - checker.Position[0]) == 2 && 
+                    Math.Abs(column - checker.Position[1]) == 2) || // diagonal jump
+                    (Math.Abs(row - checker.Position[0]) == 2 && 
+                    Math.Abs(column - checker.Position[1]) == 0) || // up or down jump
+                    (Math.Abs(row - checker.Position[0]) == 0 && 
+                    Math.Abs(column - checker.Position[1]) == 2))   // left or right jump
                 {
-                    Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(new int[] { row + 1, column })));
+                    // straight up (king)
+                    // if (row - checker.Position[0] == -2 && 
+                    //     column - checker.Position[1] == 0)
+                    // {
+                    //     Checker jumpedChecker = Checkers.Find(x => x.Position.SequenceEqual(
+                    //         new int[] { row + 1, column }));
+                    //     if (jumpedChecker != null)
+                    //     {
+                    //         Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
+                    //         new int[] { row + 1, column })));
+                    //     }
+                    //     else
+                    //     {
+                    //         Console.WriteLine("Invalid move");
+                    //         return;
+                    //     }
+                    // }
+                    // straight down (king)
+                    // else if (row - checker.Position[0] == 2 && 
+                    //     column - checker.Position[1] == 0)
+                    // {
+                    //     Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
+                    //         new int[] { row - 1, column })));
+                    // }
+                    // straight right (king)
+                    // else if (row - checker.Position[0] == 0 && 
+                    //     column - checker.Position[1] == 2)
+                    // {
+                    //     Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
+                    //         new int[] { row, column - 1 })));
+                    // }
+                    //straight left (king)
+                    // else if (row - checker.Position[0] == 0 && 
+                    //     column - checker.Position[1] == -2)
+                    // {
+                    //     Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
+                    //         new int[] { row, column + 1 })));
+                    // }
+                    //diagonal up right
+                    if (row - checker.Position[0] == -2 && 
+                        column - checker.Position[1] == 2)
+                    {
+                        Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
+                            new int[] { row + 1, column - 1 })));
+                        PlaceChecker(checker, row, column);
+                        return;
+                    }
+                    //diagonal up left
+                    if (row - checker.Position[0] == -2 && 
+                        column - checker.Position[1] == -2)
+                    {
+                        Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
+                            new int[] { row + 1, column + 1 })));
+                        PlaceChecker(checker, row, column);
+                        return;
+                    }
+                    //diagonal down right
+                    if (row - checker.Position[0] == 2 && 
+                        column - checker.Position[1] == 2)
+                    {
+                        Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
+                            new int[] { row - 1, column - 1 })));
+                        PlaceChecker(checker, row, column);
+                        return;
+                    }
+                    //diagonal down left
+                    if (row - checker.Position[0] == 2 && 
+                        column - checker.Position[1] == -2)
+                    {
+                        Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
+                            new int[] { row - 1, column + 1 })));
+                        PlaceChecker(checker, row, column);
+                        return;      
+                    }
                 }
-                // straight down
-                else if (row - checker.Position[0] == 2 && column - checker.Position[1] == 0)
+                else if (Math.Abs(row - checker.Position[0]) == 1 && 
+                    Math.Abs(column - checker.Position[1]) == 1)
                 {
-                    Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(new int[] { row - 1, column })));
+                    PlaceChecker(checker, row, column);
+                    return;
                 }
-                // straight right
-                else if (row - checker.Position[0] == 0 && column - checker.Position[1] == 2)
-                {
-                    Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(new int[] { row, column - 1 })));
-                }
-                //straight left
-                else if (row - checker.Position[0] == 0 && column - checker.Position[1] == -2)
-                {
-                    Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(new int[] { row, column + 1 })));
-                }
-                //diagonal up right
-                else if (row - checker.Position[0] == -2 && column - checker.Position[1] == 2)
-                {
-                    Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(new int[] { row - 1, column - 1 })));
-                }
-                //diagonal up left
-                else if (row - checker.Position[0] == -2 && column - checker.Position[1] == -2)
-                {
-                    Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(new int[] { row - 1, column + 1 })));
-                }
-                //diagonal down right
-                else if (row - checker.Position[0] == 2 && column - checker.Position[1] == 2)
-                {
-                    Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(new int[] { row - 1, column - 1 })));
-                }
-                //diagonal down left
-                else if (row - checker.Position[0] == -2 && column - checker.Position[1] == -2)
-                {
-                    Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(new int[] { row - 1, column + 1 })));
-                }
-
             }
-
-            checker.Position[0] = row;
-            checker.Position[1] = column;
-            this.PlaceCheckers();
-            this.DrawBoard();
+            else
+            {
+                Console.WriteLine("Invalid move");
+            }
             return;
         }
         
         public void RemoveChecker(int row, int column)
         {
-            Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(new int[] { row, column })));
+            Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
+                new int[] { row, column })));
             return;
         }
         
         public bool CheckForWin()
         {
-            return Checkers.All(x => x.Color == "white") || !Checkers.Exists(x => x.Color == "black");
+            return Checkers.All(x => x.Color == "white") || 
+                !Checkers.Exists(x => x.Color == "black");
         }
     }
 
@@ -243,8 +303,16 @@ namespace Checkers
             board.DrawBoard();
             while (!board.CheckForWin())
             {
-                Console.Write("Enter starting row and column, separated by a comma (no space): ");
+                Console.Write("Enter starting row and column, " +
+                    "separated by a comma (no space): ");
                 string rowAndColumn = Console.ReadLine();
+                Regex regex = new Regex(@"\d,\d");
+                Match match = regex.Match(rowAndColumn);
+                if (rowAndColumn != match.Value || rowAndColumn == "") 
+                {
+                    Console.WriteLine("Invalid entry");
+                    continue;
+                }
                 string[] coordinates = rowAndColumn.Split(",");
                 int startingRow = Convert.ToInt32(coordinates[0]) - 1;
                 int startingColumn = Convert.ToInt32(coordinates[1]) - 1;
@@ -264,8 +332,15 @@ namespace Checkers
                 }
 
                 board.SelectChecker(startingRow, startingColumn);
-                Console.Write("Enter ending row and column, separated by a comma (no space): ");
+                Console.Write("Enter ending row and column, " +
+                    "separated by a comma (no space): ");
                 rowAndColumn = Console.ReadLine();
+                match = regex.Match(rowAndColumn);
+                if (rowAndColumn != match.Value || rowAndColumn == "") 
+                {
+                    Console.WriteLine("Invalid entry");
+                    continue;
+                }
                 coordinates = rowAndColumn.Split(",");
                 int endingRow = Convert.ToInt32(coordinates[0]) - 1;
                 int endingColumn = Convert.ToInt32(coordinates[1]) - 1;

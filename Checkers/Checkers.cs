@@ -183,11 +183,12 @@ namespace Checkers
                 new int[] { row, column })) == null)
             {        
                 if ((Math.Abs(row - checker.Position[0]) == 2 && 
-                    Math.Abs(column - checker.Position[1]) == 2) || // diagonal jump
-                    (Math.Abs(row - checker.Position[0]) == 2 && 
-                    Math.Abs(column - checker.Position[1]) == 0) || // up or down jump
-                    (Math.Abs(row - checker.Position[0]) == 0 && 
-                    Math.Abs(column - checker.Position[1]) == 2))   // left or right jump
+                    Math.Abs(column - checker.Position[1]) == 2) // diagonal jump
+                    // || (Math.Abs(row - checker.Position[0]) == 2 && 
+                    // Math.Abs(column - checker.Position[1]) == 0) || // up or down jump (king)
+                    // (Math.Abs(row - checker.Position[0]) == 0 && 
+                    // Math.Abs(column - checker.Position[1]) == 2) // left or right jump (king)
+                    )   
                 {
                     // straight up (king)
                     // if (row - checker.Position[0] == -2 && 
@@ -231,36 +232,28 @@ namespace Checkers
                     if (row - checker.Position[0] == -2 && 
                         column - checker.Position[1] == 2)
                     {
-                        Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
-                            new int[] { row + 1, column - 1 })));
-                        PlaceChecker(checker, row, column);
+                        JumpChecker(checker, row + 1, column - 1, row, column);
                         return;
                     }
                     //diagonal up left
                     if (row - checker.Position[0] == -2 && 
                         column - checker.Position[1] == -2)
                     {
-                        Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
-                            new int[] { row + 1, column + 1 })));
-                        PlaceChecker(checker, row, column);
+                        JumpChecker(checker, row + 1, column + 1, row, column);
                         return;
                     }
                     //diagonal down right
                     if (row - checker.Position[0] == 2 && 
                         column - checker.Position[1] == 2)
                     {
-                        Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
-                            new int[] { row - 1, column - 1 })));
-                        PlaceChecker(checker, row, column);
+                        JumpChecker(checker, row - 1, column - 1, row, column);
                         return;
                     }
                     //diagonal down left
                     if (row - checker.Position[0] == 2 && 
                         column - checker.Position[1] == -2)
                     {
-                        Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
-                            new int[] { row - 1, column + 1 })));
-                        PlaceChecker(checker, row, column);
+                        JumpChecker(checker, row - 1, column + 1, row, column);
                         return;      
                     }
                 }
@@ -270,12 +263,34 @@ namespace Checkers
                     PlaceChecker(checker, row, column);
                     return;
                 }
+                else
+                {
+                    Console.WriteLine("Invalid move");
+                }
             }
             else
             {
                 Console.WriteLine("Invalid move");
             }
             return;
+        }
+
+        public void JumpChecker(Checker checker, int row, int column,
+            int newRow, int newColumn)
+        {
+          Checker deadChecker = Checkers.Find(x => x.Position.SequenceEqual(
+                new int[] { row, column }));
+          if (deadChecker.Color != checker.Color)
+          {
+              Checkers.Remove(deadChecker);
+              PlaceChecker(checker, newRow, newColumn);
+              return;
+           }
+           else 
+           {
+               Console.WriteLine("Invalid move");
+               return;
+            }  
         }
         
         public void RemoveChecker(int row, int column)

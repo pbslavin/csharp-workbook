@@ -85,10 +85,14 @@ namespace Checkers
                     {
                         Grid[i][j] = i.ToString();
                     }
-                    else
-                    {
-                        Grid[i][j] = " ";
-                    }
+                    // else if (i % 2 != 0 && j % 2 != 0)
+                    // {
+                    //     Grid[i][j] = " ";
+                    // }
+                    // else
+                    // {
+                    //     Grid[i][j] = nonPlaySquare;
+                    // }
                 }
             }
             return;
@@ -143,11 +147,20 @@ namespace Checkers
         
         public void PlaceCheckers()
         {
+            int nonPlaySquareId = int.Parse("25A4", System.Globalization.NumberStyles.HexNumber);
+            string nonPlaySquare = char.ConvertFromUtf32(nonPlaySquareId);
             for (int i = 1; i < 9; i ++)
             {
                 for (int j = 1; j < 9; j ++)
                 {
-                    this.Grid[i][j] = " ";
+                    if ((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0))
+                    {
+                        Grid[i][j] = " ";
+                    }
+                    else
+                    {
+                        Grid[i][j] = nonPlaySquare;
+                    } 
                 }
             }
             for (int i = 0; i < this.Checkers.Count; i ++)
@@ -163,8 +176,8 @@ namespace Checkers
         {
             checker.Position[0] = row;
             checker.Position[1] = column;
-            this.PlaceCheckers();
-            this.DrawBoard();
+            PlaceCheckers();
+            DrawBoard();
 
         }
         
@@ -172,7 +185,7 @@ namespace Checkers
         {   
             for (int i = 0; i < 9; i ++)
             {
-                Console.WriteLine(string.Join(" ", this.Grid[i]));
+                Console.WriteLine(String.Join(" ", this.Grid[i]));
             }
         }
         
@@ -212,7 +225,6 @@ namespace Checkers
                         else
                         {
                             Console.WriteLine("Invalid move");
-                            return;
                         }
                     }
                     if (checker.Color == "white" || checker.King)
@@ -238,8 +250,8 @@ namespace Checkers
                             Console.WriteLine("Invalid move");
                         }
                     }
-                    
                 }
+                // non-jumping
                 else if (Math.Abs(row - checker.Position[0]) == 1 && 
                     Math.Abs(column - checker.Position[1]) == 1)
                 {
@@ -254,7 +266,6 @@ namespace Checkers
                     {
                         Console.WriteLine("Invalid move");
                     }
-                    return;
                 }
                 else
                 {
@@ -295,19 +306,21 @@ namespace Checkers
 
         public void KingCheck(Checker checker, int row)
         {
-            if ((checker.Color == "white" && row == 8) ||
-                (checker.Color == "black" && row == 1))
+            if ((checker.Color == "white" && row == 7) ||
+                (checker.Color == "black" && row == 0))
             {
                 checker.King = true;
+                PlaceCheckers();
+                DrawBoard();
                 if (checker.Color == "white")
                 {
-                    int openDiamondId = int.Parse("25C7", System.Globalization.NumberStyles.HexNumber);
+                    int openDiamondId = int.Parse("25D4", System.Globalization.NumberStyles.HexNumber);
                     string openDiamond = char.ConvertFromUtf32(openDiamondId);
                     checker.Symbol = openDiamond;
                 }
                 else
                 {
-                    int closedDiamondId = int.Parse("25C6", System.Globalization.NumberStyles.HexNumber);
+                    int closedDiamondId = int.Parse("25D5", System.Globalization.NumberStyles.HexNumber);
                     string closedDiamond = char.ConvertFromUtf32(closedDiamondId);
                     checker.Symbol = closedDiamond;
                 }
@@ -333,9 +346,9 @@ namespace Checkers
             while (!board.CheckForWin())
             {
                 Console.Write("Enter starting row and column, " +
-                    "separated by a comma (no space): ");
+                    "separated by a comma: ");
                 string rowAndColumn = Console.ReadLine();
-                Regex regex = new Regex(@"\d,\d");
+                Regex regex = new Regex(@"\d, *\d");
                 Match match = regex.Match(rowAndColumn);
                 if (rowAndColumn != match.Value || rowAndColumn == "") 
                 {
@@ -362,7 +375,7 @@ namespace Checkers
 
                 board.SelectChecker(startingRow, startingColumn);
                 Console.Write("Enter ending row and column, " +
-                    "separated by a comma (no space): ");
+                    "separated by a comma: ");
                 rowAndColumn = Console.ReadLine();
                 match = regex.Match(rowAndColumn);
                 if (rowAndColumn != match.Value || rowAndColumn == "") 
@@ -387,48 +400,3 @@ namespace Checkers
             Console.WriteLine("Hello World!");
         }
     }
-}
-
-                    // || (Math.Abs(row - checker.Position[0]) == 2 && 
-                    // Math.Abs(column - checker.Position[1]) == 0) || // up or down jump (king)
-                    // (Math.Abs(row - checker.Position[0]) == 0 && 
-                    // Math.Abs(column - checker.Position[1]) == 2) // left or right jump (king)  
-
-                    // straight up (king)
-                    // if (row - checker.Position[0] == -2 && 
-                    //     column - checker.Position[1] == 0)
-                    // {
-                    //     Checker jumpedChecker = Checkers.Find(x => x.Position.SequenceEqual(
-                    //         new int[] { row + 1, column }));
-                    //     if (jumpedChecker != null)
-                    //     {
-                    //         Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
-                    //         new int[] { row + 1, column })));
-                    //     }
-                    //     else
-                    //     {
-                    //         Console.WriteLine("Invalid move");
-                    //         return;
-                    //     }
-                    // }
-                    // straight down (king)
-                    // else if (row - checker.Position[0] == 2 && 
-                    //     column - checker.Position[1] == 0)
-                    // {
-                    //     Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
-                    //         new int[] { row - 1, column })));
-                    // }
-                    // straight right (king)
-                    // else if (row - checker.Position[0] == 0 && 
-                    //     column - checker.Position[1] == 2)
-                    // {
-                    //     Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
-                    //         new int[] { row, column - 1 })));
-                    // }
-                    //straight left (king)
-                    // else if (row - checker.Position[0] == 0 && 
-                    //     column - checker.Position[1] == -2)
-                    // {
-                    //     Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
-                    //         new int[] { row, column + 1 })));
-                    // }

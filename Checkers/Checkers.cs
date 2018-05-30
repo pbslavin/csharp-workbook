@@ -85,14 +85,6 @@ namespace Checkers
                     {
                         Grid[i][j] = i.ToString();
                     }
-                    // else if (i % 2 != 0 && j % 2 != 0)
-                    // {
-                    //     Grid[i][j] = " ";
-                    // }
-                    // else
-                    // {
-                    //     Grid[i][j] = nonPlaySquare;
-                    // }
                 }
             }
             return;
@@ -329,13 +321,23 @@ namespace Checkers
         
         public bool CheckForWin()
         {
-            return Checkers.All(x => x.Color == "white") || 
-                !Checkers.Exists(x => x.Color == "white");
+            if (Checkers.All(x => x.Color == "white"))
+            {
+                Console.WriteLine("White wins!");
+                return true;
+            }
+            else if (!Checkers.Exists(x => x.Color == "white"))
+            {
+                Console.WriteLine("Black wins!");
+                return true;
+            }
+            return false;
         }
     }
 
     class Game
     {
+        private string winner = "";
         public Game()
         {
             Board board = new Board();
@@ -396,7 +398,6 @@ namespace Checkers
         static void Main(string[] args)
         {
             new Game();
-            
-            Console.WriteLine("Hello World!");
         }
     }
+}

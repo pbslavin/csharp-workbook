@@ -75,7 +75,7 @@ namespace Stacks
             myStack.MyPush(num2);
             myStack.MyPush(str1);
             myStack.MyPush(str2);
-            // myStack.MyPush(nothing);
+            myStack.MyPush(nothing);
 
             myStack.ShowValues();
             Console.WriteLine(myStack.MyPop());

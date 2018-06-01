@@ -104,7 +104,7 @@ namespace Checkers
             {
                 for (int j = 0; j < 8; j += 2)
                 {
-                    if (i % 2 == 0 && j == 0) //offset j by one on even rows
+                    if (i % 2 == 0 && j == 0) // offset j by one on even rows
                     {
                         j += 1;
                     }
@@ -183,13 +183,13 @@ namespace Checkers
         
         public Checker SelectChecker(int row, int column)
         {
-            return Checkers.Find(x => x.Position.SequenceEqual(
+            return Checkers.Find(checkr => checkr.Position.SequenceEqual(
                 new int[] { row, column }));
         }
-
+ 
         public void MoveChecker(Checker checker, int row, int column)
         {
-            if (Checkers.Find(x => x.Position.SequenceEqual(
+            if (Checkers.Find(checkr => checkr.Position.SequenceEqual(
                 new int[] { row, column })) == null)
             {      
                 // jumping  
@@ -271,10 +271,55 @@ namespace Checkers
             return;
         }
 
+        public bool jumpAvailable(Game game, string turn)
+        {
+            IEnumerable<Checker> turnCheckers = Checkers.Where(checker => checker.Color == turn);
+            foreach (Checker checker in turnCheckers)
+            {
+                if (checker.Color == "black" || checker.King)
+                {
+                    if ((Checkers.Exists(checkr => checkr.Position.SequenceEqual(
+                        new int[] { checker.Position[0] - 1, checker.Position[1] - 1 }) && checkr.Color != checker.Color) &&
+                        !Checkers.Exists(checkr => checkr.Position.SequenceEqual(
+                        new int[] { checker.Position[0] - 2, checker.Position[1] - 2 }))) ||
+                        (Checkers.Exists(checkr => checkr.Position.SequenceEqual(
+                        new int[] { checker.Position[0] - 1, checker.Position[1] + 1 }) && checkr.Color != checker.Color) &&
+                        !Checkers.Exists(checkr => checkr.Position.SequenceEqual(
+                        new int[] { checker.Position[0] - 2, checker.Position[1] + 2 }))))
+                    {   
+                        game.jumpCheckers.Add(checker); 
+                    }
+                }
+                if (checker.Color == "white" || checker.King)
+                {
+                    if ((Checkers.Exists(checkr => checkr.Position.SequenceEqual(
+                        new int[] { checker.Position[0] + 1, checker.Position[1] - 1 }) && checkr.Color != checker.Color) &&
+                        !Checkers.Exists(checkr => checkr.Position.SequenceEqual(
+                        new int[] { checker.Position[0] + 2, checker.Position[1] - 2 }))) ||
+                        (Checkers.Exists(checkr => checkr.Position.SequenceEqual(
+                        new int[] { checker.Position[0] + 1, checker.Position[1] + 1 }) && checkr.Color != checker.Color) &&
+                        !Checkers.Exists(checkr => checkr.Position.SequenceEqual(
+                        new int[] { checker.Position[0] - 2, checker.Position[1] + 2 }))))
+                    {   
+                        game.jumpCheckers.Add(checker); 
+                    }
+                }
+            }
+            if (game.jumpCheckers.Count > 0)
+            {
+                foreach (Checker jumpChecker in game.jumpCheckers)
+                {
+                    Console.WriteLine($"Checker at {jumpChecker.Position[0] + 1}, {jumpChecker.Position[1] + 1} can jump.");
+                }
+                return true;
+            }
+            return false;
+        }
+
         public void JumpChecker(Checker checker, int row, int column,
             int newRow, int newColumn)
         {
-          Checker deadChecker = Checkers.Find(x => x.Position.SequenceEqual(
+          Checker deadChecker = Checkers.Find(checkr => checkr.Position.SequenceEqual(
                 new int[] { row, column }));
           if (deadChecker.Color != checker.Color)
           {
@@ -291,7 +336,7 @@ namespace Checkers
         
         public void RemoveChecker(int row, int column)
         {
-            Checkers.Remove(Checkers.Find(x => x.Position.SequenceEqual(
+            Checkers.Remove(Checkers.Find(checker => checker.Position.SequenceEqual(
                 new int[] { row, column })));
             return;
         }
@@ -306,9 +351,9 @@ namespace Checkers
                 DrawBoard();
                 if (checker.Color == "white")
                 {
-                    int openDiamondId = int.Parse("25D4", System.Globalization.NumberStyles.HexNumber);
-                    string openDiamond = char.ConvertFromUtf32(openDiamondId);
-                    checker.Symbol = openDiamond;
+                    int kingId = int.Parse("25D4", System.Globalization.NumberStyles.HexNumber);
+                    string king = char.ConvertFromUtf32(kingId);
+                    checker.Symbol = king;
                 }
                 else
                 {
@@ -321,12 +366,12 @@ namespace Checkers
         
         public bool CheckForWin()
         {
-            if (Checkers.All(x => x.Color == "white"))
+            if (Checkers.All(checker => checker.Color == "white"))
             {
                 Console.WriteLine("White wins!");
                 return true;
             }
-            else if (!Checkers.Exists(x => x.Color == "white"))
+            else if (!Checkers.Exists(checker => checker.Color == "white"))
             {
                 Console.WriteLine("Black wins!");
                 return true;
@@ -335,18 +380,33 @@ namespace Checkers
         }
     }
 
-    class Game
+    public class Game
     {
         private string winner = "";
+        private bool jump;
+        public List<Checker> jumpCheckers = new List<Checker>();
+        public string turn;
         public Game()
         {
+            // initialize game
             Board board = new Board();
             board.CreateBoard();
             board.GenerateCheckers();
             board.PlaceCheckers();
             board.DrawBoard();
+            turn = "black";
+
             while (!board.CheckForWin())
             {
+                if (turn == "black")
+                {
+                    Console.WriteLine("Black's turn");
+                }
+                else
+                {
+                    Console.WriteLine("White's turn");
+                }
+                jump = board.jumpAvailable(this, this.turn);
                 Console.Write("Enter starting row and column, " +
                     "separated by a comma: ");
                 string rowAndColumn = Console.ReadLine();
@@ -360,12 +420,17 @@ namespace Checkers
                 string[] coordinates = rowAndColumn.Split(",");
                 int startingRow = Convert.ToInt32(coordinates[0]) - 1;
                 int startingColumn = Convert.ToInt32(coordinates[1]) - 1;
+                if (jump && !(jumpCheckers.Any(checker => startingRow == checker.Position[0] && startingColumn == checker.Position[1])))
+                {
+                    Console.WriteLine("Invalid move");
+                    continue;
+                }
                 Checker movingChecker;
-                if (board.Checkers.Find(x => x.Position.SequenceEqual(
+                if (board.Checkers.Find(checker => checker.Position.SequenceEqual(
                     new int[] { startingRow, startingColumn })) != null)
                 {
                     movingChecker = 
-                    board.Checkers.Find(x => x.Position.SequenceEqual(
+                    board.Checkers.Find(checker => checker.Position.SequenceEqual(
                         new int[] { startingRow, startingColumn }));
                 }
                 else
@@ -388,7 +453,22 @@ namespace Checkers
                 coordinates = rowAndColumn.Split(",");
                 int endingRow = Convert.ToInt32(coordinates[0]) - 1;
                 int endingColumn = Convert.ToInt32(coordinates[1]) - 1;
+                if (jump && !(jumpCheckers.Any(checker => Math.Abs(endingRow - checker.Position[0]) == 2 || Math.Abs(endingColumn - checker.Position[1]) == 2)))
+                {
+                    Console.WriteLine("Invalid move");
+                    continue;
+                }
                 board.MoveChecker(movingChecker, endingRow, endingColumn);
+                jumpCheckers.Clear();
+
+                if (turn == "black")
+                {
+                    turn = "white";
+                }
+                else
+                {
+                    turn = "black";
+                }
             }
         }
     }

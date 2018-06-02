@@ -420,9 +420,12 @@ namespace Checkers
                 string[] coordinates = rowAndColumn.Split(",");
                 int startingRow = Convert.ToInt32(coordinates[0]) - 1;
                 int startingColumn = Convert.ToInt32(coordinates[1]) - 1;
-                if (jump && !(jumpCheckers.Any(checker => startingRow == checker.Position[0] && startingColumn == checker.Position[1])))
+                if (jump && !(jumpCheckers.Any(
+                    checker => startingRow == checker.Position[0] &&
+                    startingColumn == checker.Position[1])))
                 {
                     Console.WriteLine("Invalid move");
+                    jumpCheckers.Clear();
                     continue;
                 }
                 Checker movingChecker;
@@ -453,9 +456,12 @@ namespace Checkers
                 coordinates = rowAndColumn.Split(",");
                 int endingRow = Convert.ToInt32(coordinates[0]) - 1;
                 int endingColumn = Convert.ToInt32(coordinates[1]) - 1;
-                if (jump && !(jumpCheckers.Any(checker => Math.Abs(endingRow - checker.Position[0]) == 2 || Math.Abs(endingColumn - checker.Position[1]) == 2)))
+                if (jump && !(jumpCheckers.Any(
+                    checker => Math.Abs(endingRow - checker.Position[0]) == 2 || 
+                    Math.Abs(endingColumn - checker.Position[1]) == 2)))
                 {
                     Console.WriteLine("Invalid move");
+                    jumpCheckers.Clear();
                     continue;
                 }
                 board.MoveChecker(movingChecker, endingRow, endingColumn);

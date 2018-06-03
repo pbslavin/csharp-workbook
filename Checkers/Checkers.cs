@@ -168,6 +168,7 @@ namespace Checkers
         {
             checker.Position[0] = row;
             checker.Position[1] = column;
+            KingCheck(checker, row);
             PlaceCheckers();
             DrawBoard();
 
@@ -203,7 +204,6 @@ namespace Checkers
                         column - checker.Position[1] == 2)
                         {
                             JumpChecker(checker, row + 1, column - 1, row, column);
-                            KingCheck(checker, row);
                             return;
                         }
                         // up left
@@ -211,7 +211,6 @@ namespace Checkers
                             column - checker.Position[1] == -2)
                         {
                             JumpChecker(checker, row + 1, column + 1, row, column);
-                            KingCheck(checker, row);
                             return;
                         }
                         else
@@ -226,7 +225,6 @@ namespace Checkers
                             column - checker.Position[1] == 2)
                         {
                             JumpChecker(checker, row - 1, column - 1, row, column);
-                            KingCheck(checker, row);
                             return;
                         }
                         // down left
@@ -234,7 +232,6 @@ namespace Checkers
                             column - checker.Position[1] == -2)
                         {
                             JumpChecker(checker, row - 1, column + 1, row, column);
-                            KingCheck(checker, row);
                             return;      
                         }
                         else
@@ -252,7 +249,6 @@ namespace Checkers
                         checker.King)
                     {
                         PlaceChecker(checker, row, column);
-                        KingCheck(checker, row);
                     }
                     else
                     {
@@ -278,28 +274,36 @@ namespace Checkers
             {
                 if (checker.Color == "black" || checker.King)
                 {
-                    if ((Checkers.Exists(checkr => checkr.Position.SequenceEqual(
-                        new int[] { checker.Position[0] - 1, checker.Position[1] - 1 }) && checkr.Color != checker.Color) &&
-                        !Checkers.Exists(checkr => checkr.Position.SequenceEqual(
-                        new int[] { checker.Position[0] - 2, checker.Position[1] - 2 }))) ||
+                    if (Checkers.Exists(checkr => checkr.Position.SequenceEqual(
+                        new int[] { checker.Position[0] - 1, checker.Position[1] - 1 }) &&
+                        checkr.Color != checker.Color &&
+                        !Checkers.Exists(checkr1 => checkr1.Position.SequenceEqual(
+                            new int[] { checker.Position[0] - 2, checker.Position[1] - 2 })) &&
+                        (checker.Position[0] != 0 && checker.Position[0] != 1)) ||
                         (Checkers.Exists(checkr => checkr.Position.SequenceEqual(
-                        new int[] { checker.Position[0] - 1, checker.Position[1] + 1 }) && checkr.Color != checker.Color) &&
+                        new int[] { checker.Position[0] - 1, checker.Position[1] + 1 }) &&
+                        checkr.Color != checker.Color) &&
                         !Checkers.Exists(checkr => checkr.Position.SequenceEqual(
-                        new int[] { checker.Position[0] - 2, checker.Position[1] + 2 }))))
+                            new int[] { checker.Position[0] - 2, checker.Position[1] + 2 }) &&
+                        (checker.Position[0] != 6 && checker.Position[0] != 7))))
                     {   
                         game.jumpCheckers.Add(checker); 
                     }
                 }
                 if (checker.Color == "white" || checker.King)
                 {
-                    if ((Checkers.Exists(checkr => checkr.Position.SequenceEqual(
-                        new int[] { checker.Position[0] + 1, checker.Position[1] - 1 }) && checkr.Color != checker.Color) &&
-                        !Checkers.Exists(checkr => checkr.Position.SequenceEqual(
-                        new int[] { checker.Position[0] + 2, checker.Position[1] - 2 }))) ||
+                    if (Checkers.Exists(checkr => checkr.Position.SequenceEqual(
+                        new int[] { checker.Position[0] + 1, checker.Position[1] - 1 }) &&
+                        checkr.Color != checker.Color &&
+                        !Checkers.Exists(checkr1 => checkr1.Position.SequenceEqual(
+                            new int[] { checker.Position[0] + 2, checker.Position[1] - 2 })) &&
+                        (checker.Position[1] != 0 && checker.Position[1] != 1)) ||
                         (Checkers.Exists(checkr => checkr.Position.SequenceEqual(
-                        new int[] { checker.Position[0] + 1, checker.Position[1] + 1 }) && checkr.Color != checker.Color) &&
+                        new int[] { checker.Position[0] + 1, checker.Position[1] + 1 }) &&
+                        checkr.Color != checker.Color) &&
                         !Checkers.Exists(checkr => checkr.Position.SequenceEqual(
-                        new int[] { checker.Position[0] - 2, checker.Position[1] + 2 }))))
+                            new int[] { checker.Position[0] + 2, checker.Position[1] + 2 })) &&
+                        (checker.Position[1] != 6 && checker.Position[1] != 7)))
                     {   
                         game.jumpCheckers.Add(checker); 
                     }
@@ -347,8 +351,6 @@ namespace Checkers
                 (checker.Color == "black" && row == 0))
             {
                 checker.King = true;
-                PlaceCheckers();
-                DrawBoard();
                 if (checker.Color == "white")
                 {
                     int kingId = int.Parse("25D4", System.Globalization.NumberStyles.HexNumber);
@@ -357,10 +359,11 @@ namespace Checkers
                 }
                 else
                 {
-                    int closedDiamondId = int.Parse("25D5", System.Globalization.NumberStyles.HexNumber);
-                    string closedDiamond = char.ConvertFromUtf32(closedDiamondId);
-                    checker.Symbol = closedDiamond;
+                    int kingId = int.Parse("25D5", System.Globalization.NumberStyles.HexNumber);
+                    string king = char.ConvertFromUtf32(kingId);
+                    checker.Symbol = king;
                 }
+                PlaceCheckers();
             }
         }
         
@@ -438,7 +441,7 @@ namespace Checkers
                 }
                 else
                 {
-                    Console.WriteLine("There is no checker there.");
+                    Console.WriteLine("Invalid selection");
                     movingChecker = null;
                     continue;
                 }

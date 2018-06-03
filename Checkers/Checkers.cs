@@ -273,37 +273,43 @@ namespace Checkers
             foreach (Checker checker in turnCheckers)
             {
                 if (checker.Color == "black" || checker.King)
-                {
+                {       // left jump
                     if (Checkers.Exists(checkr => checkr.Position.SequenceEqual(
-                        new int[] { checker.Position[0] - 1, checker.Position[1] - 1 }) &&
+                            new int[] { checker.Position[0] - 1, checker.Position[1] - 1 }) &&
                         checkr.Color != checker.Color &&
                         !Checkers.Exists(checkr1 => checkr1.Position.SequenceEqual(
                             new int[] { checker.Position[0] - 2, checker.Position[1] - 2 })) &&
                         (checker.Position[0] != 0 && checker.Position[0] != 1)) ||
+                        
+                        // right jump
                         (Checkers.Exists(checkr => checkr.Position.SequenceEqual(
-                        new int[] { checker.Position[0] - 1, checker.Position[1] + 1 }) &&
+                            new int[] { checker.Position[0] - 1, checker.Position[1] + 1 }) &&
                         checkr.Color != checker.Color) &&
                         !Checkers.Exists(checkr => checkr.Position.SequenceEqual(
                             new int[] { checker.Position[0] - 2, checker.Position[1] + 2 }) &&
-                        (checker.Position[0] != 6 && checker.Position[0] != 7))))
+                        // not at edge of board
+                        (checker.Position[0] != 6 && checker.Position[0] != 7)))) 
                     {   
                         game.jumpCheckers.Add(checker); 
                     }
                 }
                 if (checker.Color == "white" || checker.King)
-                {
+                {       // left jump
                     if (Checkers.Exists(checkr => checkr.Position.SequenceEqual(
-                        new int[] { checker.Position[0] + 1, checker.Position[1] - 1 }) &&
+                            new int[] { checker.Position[0] + 1, checker.Position[1] - 1 }) &&
                         checkr.Color != checker.Color &&
                         !Checkers.Exists(checkr1 => checkr1.Position.SequenceEqual(
                             new int[] { checker.Position[0] + 2, checker.Position[1] - 2 })) &&
                         (checker.Position[1] != 0 && checker.Position[1] != 1)) ||
+                        
+                        // right jump
                         (Checkers.Exists(checkr => checkr.Position.SequenceEqual(
                         new int[] { checker.Position[0] + 1, checker.Position[1] + 1 }) &&
                         checkr.Color != checker.Color) &&
                         !Checkers.Exists(checkr => checkr.Position.SequenceEqual(
                             new int[] { checker.Position[0] + 2, checker.Position[1] + 2 })) &&
-                        (checker.Position[1] != 6 && checker.Position[1] != 7)))
+                        // not at edge of board
+                        (checker.Position[1] != 6 && checker.Position[1] != 7))) 
                     {   
                         game.jumpCheckers.Add(checker); 
                     }

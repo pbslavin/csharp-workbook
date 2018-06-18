@@ -66,17 +66,24 @@ namespace WebServer
             }, "POST");
 
             Route.Add("/items/update", (request, response, args) => {
-                response.AsText($@"
-                    <form method='POST' action='/items'>
-                        <input type='hidden' name='id' value='{"id"}'>
-                        <input type='hidden' name='_method' value='UPDATE'>
-                        <label>New Price
-                            <input type='text' name='price'>
-                        </label>
-                        <input type='submit' value='Update'>
-                    </form>
+                var results = RunQuery($@"  
+                    SELECT *
+                    FROM items;
                 ");
-            }, "POST");
+                string html = $@"
+                    {String.Join("", results.Select(item => $@"
+                        <form method='POST' action='/items'>
+                            <input type='hidden' name='id' value='{item["id"]}'>
+                            <input type='hidden' name='_method' value='UPDATE'>
+                            <label>{item["name"]}: New Price:
+                                <input type='text' name='price'>
+                            </label>
+                            <input type='submit' value='Update'>
+                        </form>
+                    "))}
+                ";
+                response.AsText(html);
+            }, "GET");
 
             //run the server
             int port = 8001;
@@ -105,13 +112,10 @@ namespace WebServer
                             <br>
                             price: {item["price"]}
                             <br>
-                            <form method='POST' action='/items/update'>
-                                <input type='hidden' name='id' value='{item["id"]}'>
-                                <input type='submit' value='Update price'>
-                            </form>
                         </div>
                     "))}
                 </div>
+                <a href='/items/update'>Update a price</a>
             ";
             html += @"
                 <br/><br/>

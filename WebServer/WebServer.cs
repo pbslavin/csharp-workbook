@@ -70,7 +70,7 @@ namespace WebServer
                     <form method='POST' action='/items'>
                         <input type='hidden' name='id' value='{"id"}'>
                         <input type='hidden' name='_method' value='UPDATE'>
-                        <label>New price:
+                        <label>New Price
                             <input type='text' name='price'>
                         </label>
                         <input type='submit' value='Update'>

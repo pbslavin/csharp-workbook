@@ -75,7 +75,7 @@ namespace WebServer
                         <form method='POST' action='/items'>
                             <input type='hidden' name='id' value='{item["id"]}'>
                             <input type='hidden' name='_method' value='UPDATE'>
-                            <label>{item["name"]}: New Price:
+                            <label>{item["name"]}: new price:
                                 <input type='text' name='price'>
                             </label>
                             <input type='submit' value='Update'>
@@ -86,7 +86,7 @@ namespace WebServer
             }, "GET");
 
             //run the server
-            int port = 8001;
+            int port = 8000;
             Console.WriteLine($"Running Server On http://127.0.0.1:{port}");
             HttpServer.ListenAsync(port, CancellationToken.None, Route.OnHttpRequestAsync).Wait();
         }
@@ -115,7 +115,6 @@ namespace WebServer
                         </div>
                     "))}
                 </div>
-                <a href='/items/update'>Update a price</a>
             ";
             html += @"
                 <br/><br/>
@@ -136,6 +135,7 @@ namespace WebServer
                     </label>
                     <input type='submit' value='Submit' />
                 </form>
+                <a href='/items/update'><button>Update a price</button></a>
             ";
             return html;
         }

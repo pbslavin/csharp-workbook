@@ -75,8 +75,8 @@ namespace WebServer
                         <form method='POST' action='/items'>
                             <input type='hidden' name='id' value='{item["id"]}'>
                             <input type='hidden' name='_method' value='UPDATE'>
-                            <label>{item["name"]}: new price:
-                                <input type='text' name='price'>
+                            <label>{item["name"]}: ${item["price"]}; New price:
+                                $<input type='text' name='price'>
                             </label>
                             <input type='submit' value='Update'>
                         </form>
@@ -110,7 +110,7 @@ namespace WebServer
                             <br>
                             name: {item["name"]}
                             <br>
-                            price: {item["price"]}
+                            price: ${item["price"]}
                             <br>
                         </div>
                     "))}

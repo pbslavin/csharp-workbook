@@ -86,7 +86,7 @@ namespace WebServer
             }, "GET");
 
             //run the server
-            int port = 8000;
+            int port = 8001;
             Console.WriteLine($"Running Server On http://127.0.0.1:{port}");
             HttpServer.ListenAsync(port, CancellationToken.None, Route.OnHttpRequestAsync).Wait();
         }
@@ -106,8 +106,6 @@ namespace WebServer
                                 <input type='hidden' name='id' value='{item["id"]}'>
                                 <input type='submit' value='X' style='float: right'>
                             </form>
-                            id: {item["id"]}
-                            <br>
                             name: {item["name"]}
                             <br>
                             price: ${item["price"]}

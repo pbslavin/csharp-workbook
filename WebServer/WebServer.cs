@@ -85,8 +85,32 @@ namespace WebServer
                 response.AsText(html);
             }, "GET");
 
+            // WHY DOES THE BELOW POST ROUTE THROW KEY NOT FOUND IN DICTIONARY ERROR?
+
+            // Route.Add("/items/update", (request, response, args) => {
+            //     var results = RunQuery($@"  
+            //         SELECT *
+            //         FROM items
+            //         WHERE id = {args["id"]};
+            //     ");
+            //     string html = $@"
+            //         {String.Join("", results.Select(item => $@"
+            //             <form method='POST' action='/items'>
+            //                 <input type='hidden' name='id' value='{item["id"]}'>
+            //                 <input type='hidden' name='_method' value='UPDATE'>
+            //                 <label>{item["name"]}: ${item["price"]}; New price:
+            //                     $<input type='text' name='price'>
+            //                 </label>
+            //                 <input type='submit' value='Update'>
+            //             </form>
+            //         "))}
+            //     ";
+            //     response.AsText(html);
+            // }, "POST");
+
+
             //run the server
-            int port = 8001;
+            int port = 8000;
             Console.WriteLine($"Running Server On http://127.0.0.1:{port}");
             HttpServer.ListenAsync(port, CancellationToken.None, Route.OnHttpRequestAsync).Wait();
         }
@@ -109,7 +133,13 @@ namespace WebServer
                             name: {item["name"]}
                             <br>
                             price: ${item["price"]}
-                            <br>
+                           <!-- I'D LIKE TO USE THIS FORM TO POST ID TO UPDATE PAGE, OR PERHAPS I SHOULD JUST SEND IN URL TO GET ROUTE
+                           <form method='POST' action='/items/update'>
+                                <input type='hidden' name='_method' value='UPDATE'>
+                                <input type='hidden' name='id' value='{item["id"]}'>
+                                <input type='submit' value='Update price'>
+                            </form> 
+                            -->
                         </div>
                     "))}
                 </div>

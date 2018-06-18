@@ -91,7 +91,7 @@ namespace WebServer
             //     var results = RunQuery($@"  
             //         SELECT *
             //         FROM items
-            //         WHERE id = {args["id"]};
+            //         WHERE id = {args["id"]}; <-- THIS VARIABLE IS THE CULPRIT, BUT WHY?
             //     ");
             //     string html = $@"
             //         {String.Join("", results.Select(item => $@"
@@ -133,13 +133,15 @@ namespace WebServer
                             name: {item["name"]}
                             <br>
                             price: ${item["price"]}
+
                            <!-- I'D LIKE TO USE THIS FORM TO POST ID TO UPDATE PAGE, OR PERHAPS I SHOULD JUST SEND IN URL TO GET ROUTE
-                           <form method='POST' action='/items/update'>
+                            <form method='POST' action='/items/update'>
                                 <input type='hidden' name='_method' value='UPDATE'>
                                 <input type='hidden' name='id' value='{item["id"]}'>
                                 <input type='submit' value='Update price'>
                             </form> 
                             -->
+
                         </div>
                     "))}
                 </div>

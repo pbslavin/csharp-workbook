@@ -13,7 +13,11 @@ namespace Database{
         {
             connectionStringBuilder.DataSource = "./database.db";
             SqliteDataReader reader = RunQuery(@"
-                SELECT * FROM items;
+                SELECT items.name, warehouses.location
+                    FROM items 
+                        JOIN containers ON containers.id = container_id
+                            JOIN warehouses ON warehouses.id = warehouse_id
+                    WHERE LENGTH(items.name) > 6; 
             ");
             PrintResults(reader);
         }

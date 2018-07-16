@@ -109,28 +109,24 @@ namespace TextGame
                     if (edmg1 > fdmg1)
                     {
                         Console.WriteLine("The spider has dealt more damage than you!");
-                        complete = 0;
-                        return complete;
+                        return 0;
                     }
                     else if (fdmg1 < 5)
                     {
                         Console.WriteLine("You didn't do enough damage to kill the spider, but you manage to escape.");
-                        complete = 1;
-                        return complete;
+                        return 1;
                     }
                     else
                     {
                         Console.WriteLine("You killed the spider!");
-                        complete = 1;
-                        return complete;
+                        return 1;
                     }
                 }
                 //DON"T FIGHT SPIDER
                 Console.WriteLine("You choose not to fight the spider.");
                 Thread.Sleep(1000);
                 Console.WriteLine("As you turn away, it ambushes you and impales you with it's fangs!!!");
-                complete = 0;
-                return complete;
+                return 0;
             }
             //DON"T APPROACH SPIDER
             else
@@ -139,8 +135,7 @@ namespace TextGame
                 Thread.Sleep(1000);
                 Console.WriteLine("but something won't let you....");
                 Thread.Sleep(2000);
-                complete = 0;
-                return complete;
+                return 0;
             }
         }
 

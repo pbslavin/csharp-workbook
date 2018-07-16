@@ -20,8 +20,8 @@ namespace TextGame
                 if (complete == 1)
                 {
                     Console.WriteLine("You managed to escape the cavern alive! Would you like to play again? [y/n]: ");
-                    playAgain = Console.ReadLine();
-                    if (Array.IndexOf(y, playAgain.ToLower()) > -1)
+                    playAgain = Console.ReadLine().ToLower();
+                    if (Array.IndexOf(y, playAgain) > -1)
                     {
                         alive = true;
                     }
@@ -56,11 +56,10 @@ namespace TextGame
 
             Console.WriteLine("You enter a dark cavern out of curiosity. It is dark and you can only make out a small stick on the floor.");
             Console.WriteLine("Do you take it? [y/n]: ");
-            string ch1 = Console.ReadLine();
+            string ch1 = Console.ReadLine().ToLower();
 
             // STICK TAKEN
             int stick;
-            string[] y = { "y", "Y", "Yes", "YES", "yes" };
             if (Array.IndexOf(y, ch1) > -1)
             {
                 Console.WriteLine("You have taken the stick!");
@@ -76,7 +75,7 @@ namespace TextGame
 
             Console.WriteLine("As you proceed further into the cave, you see a small glowing object");
             Console.WriteLine("Do you approach the object? [y/n]");
-            string ch2 = Console.ReadLine();
+            string ch2 = Console.ReadLine().ToLower();
 
             //APPROACH SPIDER
             if (Array.IndexOf(y, ch2) > -1)
@@ -87,7 +86,7 @@ namespace TextGame
                 Thread.Sleep(1000);
                 Console.WriteLine("The eye belongs to a giant spider!");
                 Console.WriteLine("Do you try to fight it? [y/n]");
-                string ch3 = Console.ReadLine();
+                string ch3 = Console.ReadLine().ToLower();
 
                 //FIGHT SPIDER
                 if (Array.IndexOf(y, ch3) > -1)

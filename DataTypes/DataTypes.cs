@@ -35,6 +35,7 @@ namespace DataTypes
             Console.WriteLine("                  Fighting...                   ");
             Console.WriteLine("   YOU MUST HIT ABOVE A 5 TO KILL THE SPIDER    ");
             Console.WriteLine("IF THE SPIDER HITS HIGHER THAN YOU, YOU WILL DIE");
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             Thread.Sleep(2000);
             fdmg1 = rnd.Next(a, b);
             edmg1 = rnd.Next(c, d);

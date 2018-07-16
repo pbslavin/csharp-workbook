@@ -35,9 +35,10 @@ namespace PigLatin
             {
                 if (Char.IsPunctuation(pword[i]))
                 {
-
                     punctDict.Add(i, pword[i].ToString());
-                } else {                    
+                } 
+                else 
+                {                    
                     if (firstLetterIndex == -1) 
                     {
                         // set firstLetterIndex
@@ -52,16 +53,18 @@ namespace PigLatin
             {
                 return pword;
             }
+            // check if word is capitalized...
             if (Char.IsUpper(pword, firstLetterIndex)) 
             {
                 capitalized = true;
             }
+            // and then render word in lowercase
             word = word.ToLower();
             upToLastLetter = pword.Substring(0, lastLetterIndex).Length;
             // translate the original word, minus any punctuation
             char [] vowels = new char [] {'a', 'e', 'i', 'o', 'u'};
             int vowelIndex = -1;
-            if ((word.IndexOfAny(vowels) > -1 && word.IndexOfAny(vowels) < vowelIndex) || vowelIndex == -1) 
+            if (word.IndexOfAny(vowels) > vowelIndex) 
             {
                 vowelIndex = word.IndexOfAny(vowels);
             }
@@ -71,12 +74,16 @@ namespace PigLatin
                 if (word.IndexOf('y') > -1)
                 {
                     vowelIndex = word.IndexOf('y');
-                } else {
-                    vowelIndex = 0;
+                } 
+                else 
+                {  
+                    // if there are no vowels, first letter goes to end, before adding 'ay'
+                    vowelIndex = 1;
                 }
             }
             string firstPart = word.Substring(0, vowelIndex);
             string secondPart = word.Substring(vowelIndex);
+            // if word begins with a vowel
             if (word.Length == secondPart.Length) 
             {
                 pword = word + "yay";

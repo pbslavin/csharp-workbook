@@ -106,8 +106,15 @@ namespace PigLatin
                     else 
                     {
                         // if an apostrophe, insert before the letter it originally preceded
-                        //***THIS DOESN'T WORK FOR APOSTROPHES LIKE C'RAZY -- MUST FIX***
-                        pword = pword.Insert(key - vowelIndex, punctDict[key]); 
+                        //*** THIS STILL DOESN'T ACCOUNT FOR USING COMBINATION OF SINGLE QUOTES AND APOSTROPHES ***//
+                        if (key >= vowelIndex)
+                        {
+                            pword = pword.Insert(key - vowelIndex, punctDict[key]);
+                        }
+                        else
+                        {
+                            pword = pword.Insert(vowelIndex + key + 1, punctDict[key]);
+                        }
                     }
                 // if an apostrophe at end of word, insert after letter it originally followed    
                 } 

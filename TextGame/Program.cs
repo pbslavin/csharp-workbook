@@ -34,7 +34,7 @@ namespace TextGame
                 {
                     Console.WriteLine("You have died! Would you like to play again? [y/n]: ");
                     playAgain = Console.ReadLine();
-                    if (Array.IndexOf(y, playAgain.ToLower()) > -1)
+                    if (Array.IndexOf(y, playAgain) > -1)
                     {
                         alive = true;
                     }

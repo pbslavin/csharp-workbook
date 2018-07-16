@@ -58,7 +58,6 @@ namespace PigLatin
             {
                 capitalized = true;
             }
-            // and then render word in lowercase
             word = word.ToLower();
             upToLastLetter = pword.Substring(0, lastLetterIndex).Length;
             // translate the original word, minus any punctuation

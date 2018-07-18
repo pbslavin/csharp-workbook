@@ -11,6 +11,13 @@ namespace PigLatin
         {   
             Console.WriteLine("Please enter an English sentence:");
             string sentence = Console.ReadLine();
+            for (int i = 0; i < sentence.Length - 1; i ++)
+            {
+                if (sentence[i] == ',' && sentence[i + 1] != ' ')
+                {
+                    sentence = sentence.Insert(i + 1, " ");
+                }
+            }
             string [] words = sentence.Split(' ');
             List<string> translatedSentenceList = new List<string>();
             foreach (string word in words)
